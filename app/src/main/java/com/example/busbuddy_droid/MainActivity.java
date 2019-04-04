@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -22,15 +24,20 @@ public class MainActivity extends AppCompatActivity {
     EditText direction;
     EditText street;
     Button startButton;
+    TextView busQuestion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        busNum = (EditText) findViewById(R.id.busNum);
-        direction = (EditText) findViewById(R.id.direction);
-        street = (EditText) findViewById(R.id.street);
+        busQuestion = (TextView) findViewById(R.id.busQuestion);
+        busNum = (EditText) findViewById(R.id.inputBus);
+
+        setContentView(R.layout.input_bus);
+
+
+        //direction = (EditText) findViewById(R.id.direction);
+        //street = (EditText) findViewById(R.id.street);
 /*
         startButton = (Button) findViewById(R.id.getRawBus);
         startButton.setOnClickListener(new View.OnClickListener() {
