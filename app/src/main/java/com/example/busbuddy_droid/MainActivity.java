@@ -1,5 +1,6 @@
 package com.example.busbuddy_droid;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -23,36 +24,23 @@ public class MainActivity extends AppCompatActivity {
     EditText busNum;
     EditText direction;
     EditText street;
-    Button startButton;
     TextView busQuestion;
+    public Button submitBus;
+    public static String sendText = "com.example.busbuddy_droid.EXTRA_TEXT";
+    int checkActivity = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        busQuestion = (TextView) findViewById(R.id.busQuestion);
-        busNum = (EditText) findViewById(R.id.inputBus);
-
-        setContentView(R.layout.input_bus);
-
-
-        //direction = (EditText) findViewById(R.id.direction);
-        //street = (EditText) findViewById(R.id.street);
-/*
-        startButton = (Button) findViewById(R.id.getRawBus);
-        startButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String message = "Button Has Been Clicked";
-                Toast toast = Toast.makeText(getApplicationContext(),message, Toast.LENGTH_SHORT);
-                toast.show();
-                websiteResponse.setText("You pressed the Button "+buttonCounter+" times! \n ");
-            }
-        });*/
+        if(checkActivity == 1){
+            Intent addBus = new Intent(this, com.example.busbuddy_droid.addBus.class);
+            startActivity(addBus);
+            finish();
+        }
+        else{
+            setContentView(R.layout.activity_main);
+        }
     }
-
-
-
 }
 
 
