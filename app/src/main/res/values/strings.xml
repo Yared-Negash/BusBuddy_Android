@@ -2,4 +2,6 @@
     <string name="app_name">busBuddy_droid</string>
     <string name="startButton_text">Get Raw Bus Times</string>
     <string name="askBus">What Bus Are You Looking For?</string>
+    <string name="askDirection">In Which Direction?</string>
+
 </resources>
