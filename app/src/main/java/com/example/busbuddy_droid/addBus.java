@@ -43,6 +43,7 @@ public class addBus extends AppCompatActivity {
         });
     }
     public class netBus extends AsyncTask<String,String,String>{
+        String value;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -52,22 +53,25 @@ public class addBus extends AppCompatActivity {
         protected String doInBackground(String... strings) {
             try{
                 //Todo: Try to figure out how to build a proper URL with URI Builder; If string has '&' it will break
-                URL busURL = new URL("http://www.mybusnow.njtransit.com");
+                //URL busURL = new URL("https://www.google.com");
+                URL busURL = new URL("http://mybusnow.njtransit.com");
 
                 HttpURLConnection connect = (HttpURLConnection) busURL.openConnection();
                 connect.setRequestMethod("GET");
                 connect.connect();
 
                 BufferedReader bf = new BufferedReader((new InputStreamReader(connect.getInputStream())));
-                String value = bf.readLine();
+
+                value = bf.readLine();
                 testGetReq.setText(value);
 
-                Context context = getApplicationContext();
+                //Context context = getApplicationContext();
                 System.out.println("DUDE"+value);
 
             }
             catch (Exception e){
                 System.out.println("DIDNT WorK");
+                testGetReq.setText("IT didnt work");
             }
             return null;
         }
@@ -75,6 +79,7 @@ public class addBus extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            testGetReq.setText(value);
         }
 
     }
