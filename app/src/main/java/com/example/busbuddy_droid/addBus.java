@@ -14,6 +14,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.LinkedList;
 
 public class addBus extends AppCompatActivity {
     EditText busNum;
@@ -26,6 +27,7 @@ public class addBus extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.input_bus);
+
         busQuestion = (TextView) findViewById(R.id.busQuestion);
         busNum = (EditText) findViewById(R.id.inputBus);
         submitBus = (Button) findViewById(R.id.busButton);
@@ -77,6 +79,8 @@ public class addBus extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            regexFinder obj = new regexFinder();
+            LinkedList<String> responseList = obj.findString("selectstop.*>",value);
             testGetReq.setText(value);
         }
 
