@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -32,17 +33,21 @@ public class addBus extends AppCompatActivity {
         submitBus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //String message = busNum.getText().toString();
-                //Intent passBus = new Intent(addBus.this,getDirection.class);
-               // passBus.putExtra(sendText,message);
-               // startActivity(passBus);
-                new netBus().execute();
+                String busNumber = busNum.getText().toString();
 
+                if(busNumber.isEmpty()){
+                    Toast toast = Toast.makeText(getApplicationContext(), "Did You Enter A Bus Yet?", Toast.LENGTH_LONG);
+                    toast.show();
+                }
+                else {
+                    new netBus().execute();
+                }
 
             }
         });
     }
     public class netBus extends AsyncTask<String,String,String>{
+        String value;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -51,23 +56,20 @@ public class addBus extends AppCompatActivity {
         @Override
         protected String doInBackground(String... strings) {
             try{
-                //Todo: Try to figure out how to build a proper URL with URI Builder; If string has '&' it will break
-                URL busURL = new URL("http://www.mybusnow.njtransit.com");
+                URL busURL = new URL("http://mybusnow.njtransit.com/bustime/wireless/html/selectdirection.jsp?route="+busNum.getText().toString());
 
                 HttpURLConnection connect = (HttpURLConnection) busURL.openConnection();
                 connect.setRequestMethod("GET");
                 connect.connect();
 
                 BufferedReader bf = new BufferedReader((new InputStreamReader(connect.getInputStream())));
-                String value = bf.readLine();
-                testGetReq.setText(value);
-
-                Context context = getApplicationContext();
-                System.out.println("DUDE"+value);
+                while(bf.readLine() != null){
+                    value += bf.readLine();
+                }
 
             }
             catch (Exception e){
-                System.out.println("DIDNT WorK");
+                e.printStackTrace();
             }
             return null;
         }
@@ -75,6 +77,7 @@ public class addBus extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            testGetReq.setText(value);
         }
 
     }
