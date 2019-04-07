@@ -80,9 +80,11 @@ public class addBus extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             regexFinder obj = new regexFinder();
-            LinkedList<String> responseList = obj.findString("selectstop.*>",value);
+            value = value.substring(value.indexOf("\t\t\t<a href=\"selectstop"),value.indexOf("-&nbsp;"));
+            LinkedList<String> responseList = obj.findString("selectstop.jsp?route=\\d{2,3}&direction=",value);
             testGetReq.setText(value);
         }
+
 
     }
 }

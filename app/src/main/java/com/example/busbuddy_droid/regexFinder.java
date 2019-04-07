@@ -8,13 +8,14 @@ public class regexFinder {
 
    public static LinkedList<String> findString(String regex, String text){
        LinkedList<String> response = new LinkedList<String>();
-       Pattern verifyRegEx = Pattern.compile(regex);
-       Matcher compare = verifyRegEx.matcher(text);
+       Pattern checkRegex = Pattern.compile(regex);
+       Matcher regexMatcher = checkRegex.matcher(text);
 
-       while(compare.find()){
-           if(compare.group().length() != 0){
-               System.out.println(compare.group().trim());
-               response.add(compare.group());
+       while(regexMatcher.find()){
+           if(regexMatcher.group().length() != 0){
+               System.out.println(regexMatcher.group().trim());
+               response.add(regexMatcher.group());
+
            }
        }
        return response;
