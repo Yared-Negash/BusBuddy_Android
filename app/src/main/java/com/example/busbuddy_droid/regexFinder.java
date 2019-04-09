@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 public class regexFinder {
 
    public static LinkedList<String> findString(String regex, String text){
+
        LinkedList<String> response = new LinkedList<String>();
        Pattern checkRegex = Pattern.compile(regex);
        Matcher regexMatcher = checkRegex.matcher(text);
@@ -15,8 +16,10 @@ public class regexFinder {
            if(regexMatcher.group().length() != 0){
                System.out.println(regexMatcher.group().trim());
                response.add(regexMatcher.group());
-
            }
+       }
+       if(response.equals(null)){
+           return null;
        }
        return response;
    }

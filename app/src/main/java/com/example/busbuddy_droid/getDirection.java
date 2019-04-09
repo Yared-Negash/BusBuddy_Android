@@ -19,7 +19,8 @@ public class getDirection extends AppCompatActivity {
 
 
         Intent getBus = getIntent();
-        String userInputBus = getBus.getStringExtra(MainActivity.sendText);
+        //Todo learn how to retreive data from an intent. addbus.some variable?
+        String userInputBus = getBus.getStringExtra(addBus.sendText);
         displayBus.setText("You Searched for Bus #"+userInputBus+". In What Direction?");
 
         goBack.setOnClickListener(new View.OnClickListener() {
