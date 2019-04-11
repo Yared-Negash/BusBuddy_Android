@@ -32,7 +32,7 @@ public class addBus extends AppCompatActivity {
         busQuestion = (TextView) findViewById(R.id.busQuestion);
         busNum = (EditText) findViewById(R.id.inputBus);
         submitBus = (Button) findViewById(R.id.busButton);
-        testGetReq = (TextView) findViewById(R.id.textView2);
+        //testGetReq = (TextView) findViewById(R.id.textView2);
         submitBus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,7 +88,7 @@ public class addBus extends AppCompatActivity {
             //value = value.substring(value.indexOf("\t\t\t<a href=\"selectstop"),value.indexOf("-&nbsp;"));
             String regEx = "selectstop[^\"]+";
             LinkedList<String> responseList = obj.findString(regEx,value);
-            testGetReq.setText("");
+            //testGetReq.setText("");
             if(responseList.size() == 0){
                 Toast toast = Toast.makeText(getApplicationContext(), "I could not find that? Try again.", Toast.LENGTH_LONG);
                 toast.show();
@@ -106,9 +106,15 @@ public class addBus extends AppCompatActivity {
                 if (passedInfo.contains("%2F")) {
                     passedInfo = passedInfo.replace("%2F","/");
                 }
-                String combine = responseList.get(i)+"Q"+passedInfo+"\n";
-                passDirections.putExtra("stop"+i,combine);
-                testGetReq.append(responseList.get(i)+"Q"+passedInfo+"\n");
+                if (passedInfo.contains("%2C")) {
+                    passedInfo = passedInfo.replace("%2C",",");
+                }
+
+                String combine = responseList.get(i)+"|"+passedInfo+"\n";
+                //passDirections.putExtra("com.example.busbuddy_droid.busList",combine);
+                passDirections.putExtra("com.example.busbuddy_droid.busList"+(i+1),combine);
+
+                //testGetReq.append(responseList.get(i)+"Q"+passedInfo+"\n");
             }
             startActivity(passDirections);
 
