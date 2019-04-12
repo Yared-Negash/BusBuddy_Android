@@ -6,10 +6,12 @@ import android.os.AsyncTask;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -26,18 +28,31 @@ public class stopList extends AppCompatActivity {
     LinkedList <String> busLL;
     LinearLayout list;
 
+
     public void fillButtons(String response){
         regexFinder obj = new regexFinder();
         String regex = "eta[.][^<]+";
         busLL = obj.findString(regex,response);
         for(int i = 0; i< busLL.size();i++){
-            String street = busLL.get(i);
-            String url = busLL.get(i);
-            street = street.substring(street.indexOf(">")+1);
-            url = url.substring(0,url.indexOf("\">"));
+            final String street = busLL.get(i).substring( busLL.get(i).indexOf(">")+1);;
+            final String url = busLL.get(i).substring(0,busLL.get(i).indexOf("\">"));;
+
             Button wow = new Button(getApplicationContext());
             wow.setText(street);
             wow.setTag(url);
+            wow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast toast = Toast.makeText(getApplicationContext(),url , Toast.LENGTH_SHORT);
+                    toast.show();
+                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                    intent.putExtra("com.example.busbuddy_droid.stopURL",url);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    MainActivity.checkActivity = 0;
+                    startActivity(intent);
+                    //finish();
+                }
+            });
             list.addView(wow);
         }
     }
@@ -56,6 +71,7 @@ public class stopList extends AppCompatActivity {
 
         directionQuestion.setText("You're Going to "+directionLink.substring(directionLink.indexOf("|")+1,directionLink.length()-1)+". Which Bus stop?");
         new downloadStops().execute();
+
 
 
     }
@@ -92,7 +108,6 @@ public class stopList extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             fillButtons(value);
-
         }
     }
 }

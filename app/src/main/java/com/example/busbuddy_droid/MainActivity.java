@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     TextView busQuestion;
     public Button submitBus;
     public static String sendText = "com.example.busbuddy_droid.EXTRA_TEXT";
-    int checkActivity = 1;
+    public static int checkActivity = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +39,13 @@ public class MainActivity extends AppCompatActivity {
         }
         else{
             setContentView(R.layout.activity_main);
+            Intent getLink = getIntent();
+            String url = getLink.getStringExtra("com.example.busbuddy_droid.stopURL");
+            busQuestion = (TextView) findViewById(R.id.textView);
+            busQuestion.setText(url);
         }
+
+       // busQuestion.setText(url);
     }
 }
 
