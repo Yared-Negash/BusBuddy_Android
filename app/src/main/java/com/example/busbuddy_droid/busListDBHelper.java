@@ -3,6 +3,7 @@ package com.example.busbuddy_droid;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 //this class deals the database itself: reading, adding, deleting, etc
@@ -49,6 +50,13 @@ public class busListDBHelper extends SQLiteOpenHelper {
     public void deleteStop(int stopID){
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("DELETE FROM "+TABLE_NAME+ " WHERE "+COLUMN_ID+ "=\""+stopID+ "\";");
+    }
+    public long numRows(){
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        long count = DatabaseUtils.queryNumEntries(db, TABLE_NAME);
+        db.close();
+        return count;
     }
 
     public String databaseToString(){

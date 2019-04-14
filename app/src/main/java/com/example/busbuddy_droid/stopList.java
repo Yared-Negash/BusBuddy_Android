@@ -58,6 +58,7 @@ public class stopList extends AppCompatActivity {
                     busList newStop = new busList(stopID,street);
                     dbHandler.addStop(newStop);
                     String dbContent = dbHandler.databaseToString();
+                    long rows = dbHandler.numRows();
 
                     //Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                    // intent.putExtra("com.example.busbuddy_droid.stopURL",url);
