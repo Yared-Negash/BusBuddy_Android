@@ -40,7 +40,9 @@ public class stopList extends AppCompatActivity {
         busLL = obj.findString(regex,response);
         for(int i = 0; i< busLL.size();i++){
             final String street = busLL.get(i).substring( busLL.get(i).indexOf(">")+1);;
-            final String stopID = busLL.get(i).substring(busLL.get(i).indexOf("id=")+3,busLL.get(i).indexOf("showAllBusses")-5);
+            //final int stopID = Integer.parseInt(busLL.get(i).substring(busLL.get(i).indexOf("id=")+3,busLL.get(i).indexOf("showAllBusses")-5));
+            final int stopID = Integer.parseInt(busLL.get(i).substring(busLL.get(i).indexOf("id=")+3,busLL.get(i).indexOf("id=")+8));
+
             final String url = busLL.get(i).substring(0,busLL.get(i).indexOf("\">"));;
 
             Button wow = new Button(getApplicationContext());

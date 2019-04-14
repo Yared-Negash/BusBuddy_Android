@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 //this class deals the database itself: reading, adding, deleting, etc
 public class busListDBHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "busList.db";
 
     private static final String TABLE_NAME = "busList";
@@ -23,8 +23,8 @@ public class busListDBHelper extends SQLiteOpenHelper {
     @Override //This is executed to create the table
     public void onCreate(SQLiteDatabase db) {
         String query = "CREATE TABLE " +TABLE_NAME+ "(" +
-                COLUMN_ID + " TEXT PRIMARY KEY " +
-                COLUMN_STREET + " TEXT " +
+                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_STREET + " TEXT" +
                 ");";
 
         db.execSQL(query);
@@ -64,6 +64,7 @@ public class busListDBHelper extends SQLiteOpenHelper {
                 dbString += c.getString(c.getColumnIndex("street"));
                 dbString += "\n";
             }
+            c.moveToNext();
         }
         db.close();
         return dbString;
