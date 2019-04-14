@@ -1,6 +1,7 @@
 package com.example.busbuddy_droid;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.provider.Settings;
@@ -17,6 +18,10 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -27,7 +32,7 @@ public class stopList extends AppCompatActivity {
     String directionLink;
     LinkedList <String> busLL;
     LinearLayout list;
-
+    busListDBHelper dbHandler;
 
     public void fillButtons(String response){
         regexFinder obj = new regexFinder();
@@ -35,6 +40,7 @@ public class stopList extends AppCompatActivity {
         busLL = obj.findString(regex,response);
         for(int i = 0; i< busLL.size();i++){
             final String street = busLL.get(i).substring( busLL.get(i).indexOf(">")+1);;
+            final String stopID = busLL.get(i).substring(busLL.get(i).indexOf("id=")+3,busLL.get(i).indexOf("showAllBusses")-5);
             final String url = busLL.get(i).substring(0,busLL.get(i).indexOf("\">"));;
 
             Button wow = new Button(getApplicationContext());
@@ -45,12 +51,38 @@ public class stopList extends AppCompatActivity {
                 public void onClick(View v) {
                     Toast toast = Toast.makeText(getApplicationContext(),url , Toast.LENGTH_SHORT);
                     toast.show();
-                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                    intent.putExtra("com.example.busbuddy_droid.stopURL",url);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    MainActivity.checkActivity = 0;
-                    startActivity(intent);
-                    //finish();
+
+                    dbHandler = new busListDBHelper(getApplicationContext(),null,null,1);
+                    busList newStop = new busList(stopID,street);
+                    dbHandler.addStop(newStop);
+                    String dbContent = dbHandler.databaseToString();
+
+                    //Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                   // intent.putExtra("com.example.busbuddy_droid.stopURL",url);
+                  //  intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    //MainActivity.checkActivity = 0;
+                    //startActivity(intent);
+                    /*
+                    File file = new File(getApplicationContext().getFilesDir(), "bus"+street);
+                    FileOutputStream outputStream;
+                    try{
+                        outputStream = openFileOutput("bus"+street+".txt", Context.MODE_PRIVATE);
+                        outputStream.write(url.getBytes());
+                        outputStream.close();
+                    }
+                    catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    file.canExecute();
+                    FileInputStream test = null;
+                    try {
+                        test = openFileInput("bus"+street);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    */
+                    String hello = "";
+                    //startActivity(intent);
                 }
             });
             list.addView(wow);
