@@ -77,4 +77,20 @@ public class busListDBHelper extends SQLiteOpenHelper {
         db.close();
         return dbString;
     }
+    public boolean searchStop(String stop){
+        SQLiteDatabase db = getWritableDatabase();
+        String query = "SELECT * FROM "+TABLE_NAME+" WHERE 1";
+
+        Cursor c = db.rawQuery(query,null);
+        ((Cursor) c).moveToFirst();
+        while(!c.isAfterLast()){
+            String test = c.getString(c.getColumnIndex("id"));
+            if(test.equals(stop)){
+                return true;
+            }
+            c.moveToNext();
+        }
+        db.close();
+        return false;
+    }
 }

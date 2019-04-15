@@ -40,10 +40,8 @@ public class stopList extends AppCompatActivity {
         busLL = obj.findString(regex,response);
         for(int i = 0; i< busLL.size();i++){
             final String street = busLL.get(i).substring( busLL.get(i).indexOf(">")+1);;
-            //final int stopID = Integer.parseInt(busLL.get(i).substring(busLL.get(i).indexOf("id=")+3,busLL.get(i).indexOf("showAllBusses")-5));
             final int stopID = Integer.parseInt(busLL.get(i).substring(busLL.get(i).indexOf("id=")+3,busLL.get(i).indexOf("id=")+8));
-
-            final String url = busLL.get(i).substring(0,busLL.get(i).indexOf("\">"));;
+            final String url = busLL.get(i).substring(0,busLL.get(i).indexOf("\">"));
 
             Button wow = new Button(getApplicationContext());
             wow.setText(street);
@@ -51,18 +49,19 @@ public class stopList extends AppCompatActivity {
             wow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast toast = Toast.makeText(getApplicationContext(),"You added "+stopID+" at "+street+"." , Toast.LENGTH_SHORT);
-                    toast.show();
-
                     dbHandler = new busListDBHelper(getApplicationContext(),null,null,1);
-                    busList newStop = new busList(stopID,street);
-                    dbHandler.addStop(newStop);
-                    String dbContent = dbHandler.databaseToString();
-
+                    if(dbHandler.searchStop(Integer.toString(stopID)) == true){
+                        Toast toast = Toast.makeText(getApplicationContext(),"You have already added "+stopID+" at "+street+"." , Toast.LENGTH_LONG);
+                        toast.show();
+                    }
+                    else{
+                        busList newStop = new busList(stopID,street);
+                        dbHandler.addStop(newStop);
+                    }
+                    dbHandler.close();
                     Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
-
                 }
             });
             list.addView(wow);

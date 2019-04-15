@@ -59,8 +59,6 @@ public class MainActivity extends AppCompatActivity {
                             .setAction("Action", null).show();
                     return;
                 }
-                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
                 Intent addAnotherbus = new Intent(getApplicationContext(), com.example.busbuddy_droid.addBus.class);
                 startActivity(addAnotherbus);
                 //finish();
