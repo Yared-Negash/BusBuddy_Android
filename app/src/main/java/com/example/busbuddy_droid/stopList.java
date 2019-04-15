@@ -51,41 +51,18 @@ public class stopList extends AppCompatActivity {
             wow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast toast = Toast.makeText(getApplicationContext(),url , Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(getApplicationContext(),"You added "+stopID+" at "+street+"." , Toast.LENGTH_SHORT);
                     toast.show();
 
                     dbHandler = new busListDBHelper(getApplicationContext(),null,null,1);
                     busList newStop = new busList(stopID,street);
                     dbHandler.addStop(newStop);
                     String dbContent = dbHandler.databaseToString();
-                    long rows = dbHandler.numRows();
 
-                    //Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                   // intent.putExtra("com.example.busbuddy_droid.stopURL",url);
-                  //  intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    //MainActivity.checkActivity = 0;
-                    //startActivity(intent);
-                    /*
-                    File file = new File(getApplicationContext().getFilesDir(), "bus"+street);
-                    FileOutputStream outputStream;
-                    try{
-                        outputStream = openFileOutput("bus"+street+".txt", Context.MODE_PRIVATE);
-                        outputStream.write(url.getBytes());
-                        outputStream.close();
-                    }
-                    catch (Exception e){
-                        e.printStackTrace();
-                    }
-                    file.canExecute();
-                    FileInputStream test = null;
-                    try {
-                        test = openFileInput("bus"+street);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    */
-                    String hello = "";
-                    //startActivity(intent);
+                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+
                 }
             });
             list.addView(wow);
