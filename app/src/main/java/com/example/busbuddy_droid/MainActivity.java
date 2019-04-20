@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     public static int checkActivity = 1;
     busListDBHelper dbHandler;
     FloatingActionButton fab;
-
+    LinearLayout busScroll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,16 @@ public class MainActivity extends AppCompatActivity {
             //setContentView(R.layout.activity_main);
             busQuestion = (TextView) findViewById(R.id.textView);
             busQuestion.setText(dbHandler.databaseToString());
+            busScroll = findViewById(R.id.busList);
+
+            /*
+            for(int i = 0; i < dbHandler.numRows(); i ++){
+                TextView busData = new TextView(getApplicationContext());
+                busData.setTag(Integer.toString(i));
+                busScroll.addView(busData);
+                System.out.print("");
+            }
+            */
         }
         fab = findViewById(R.id.fab);
 
@@ -68,10 +79,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        TextView test = new grabData("18789",getApplicationContext()).busETA();
 
+        busScroll.addView(test);
+        System.out.println("");
+        /*
+        grabData test = new grabData("18789",getApplicationContext());
+        test.busETA();
+        */
 
-       // busQuestion.setText(url);
     }
+
 }
 
 
