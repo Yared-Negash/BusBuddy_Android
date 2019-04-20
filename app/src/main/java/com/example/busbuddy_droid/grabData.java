@@ -14,91 +14,77 @@ import android.widget.TextView;
 
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 public class grabData {
     private String stopID;
-    Context context;
 
-    public grabData(String stopID, Context context) {
+    public grabData(String stopID) {
         this.stopID = stopID;
-        this.context = context;
     }
-    public TextView busETA(){
-        final TextView busData = new TextView(context);
-        Runnable r = new Runnable() {
-            @Override
-            public void run() {
-                Document body = null;
-                try {
-                    body = Jsoup.connect("http://mybusnow.njtransit.com/bustime/wireless/html/" +
-                            "eta.jsp?route=---&direction=---&displaydirection=---&stop=---&findstop=on&selectedRtpiFeeds=&id="+stopID).get();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                String data = body.toString();
-/*
-                if(data == ""){
-                    console.log("Invalid stopID");
-                    whole = " Invalid stop ID. Please try again";
-                    callback(whole);
-                    return;
-                }
-                else if(data.contains("No arrival times available.")){
-                    console.log("No arrival times available.");
-                    busData.setText("No arrival times available.");
-                }
-                else if(data.includes("No service is scheduled for this stop at this time.")){
-                    console.log("No service is scheduled for this stop at this time.");
-                    whole = " No service is scheduled for this stop at this time.";
-                    callback(whole);
-                    return;
-                }
-*/
-                //span element for vehicle number
-                //strong tag for bus Number and eta (check if it has "MIN" inside)
-                LinkedList<String> bus = new LinkedList<String>();
-                LinkedList<String> directions = regexFinder.findString("To[^&nbsp]+",data);
-                LinkedList<String> eta = new LinkedList<String>();
-                LinkedList<String> vehicle = new LinkedList<String>();
+    public String busETA(){
+        String record = "";
+        Document body = null;
+        try {
+            body = Jsoup.connect("http://mybusnow.njtransit.com/bustime/wireless/html/" +
+                    "eta.jsp?route=---&direction=---&displaydirection=---&stop=---&findstop=on&selectedRtpiFeeds=&id="+stopID).get();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String data = body.toString();
+
+        if(data == ""){
+            return "Invalid stop ID. Please try again";
+        }
+        else if(data.contains("No arrival times available.")){
+           return "No arrival times available.";
+        }
+        else if(data.contains("No service is scheduled for this stop at this time.")){
+            return " No service is scheduled for this stop at this time.";
+        }
+        //span element for vehicle number
+        //strong tag for bus Number and eta (check if it has "MIN" inside)
+        LinkedList<String> bus = new LinkedList<String>();
+        LinkedList<String> directions = regexFinder.findString("To[^&nbsp]+",data);
+        LinkedList<String> eta = new LinkedList<String>();
+        LinkedList<String> vehicle = new LinkedList<String>();
 
 
-                Elements strong = body.getElementsByTag("strong");
-                Elements span = body.getElementsByTag("span");
+        Elements strong = body.getElementsByTag("strong");
+        Elements span = body.getElementsByTag("span");
 
-                for (Element arrival : strong) {
-                    String bold = arrival.text();
-                    if(bold.contains("#")){
-                        bus.add(bold);
-                    }
-                    else if(bold.contains("MIN")){
-                        eta.add(bold);
-                    }
-                }
-                for (Element vehicleNum : span) {
-                    String bold = vehicleNum.text();
-                    vehicle.add(bold);
-                }
-                for(int i = 0; i < bus.size(); i++){
-                    String record;
-                    if(eta.contains("DELAYED")){
-                        record = bus.get(i)+"("+vehicle.get(i)+") "+directions.get(i)+" has been delayed. Please plan accordingly";
-                    }
-                    else if(eta.contains("<")){
-                        record = bus.get(i)+vehicle.get(i)+" "+directions.get(i)+" is arriving in less than 1 Min ";
-                    }
-                    else{
-                        record = bus.get(i)+vehicle.get(i)+" "+directions.get(i)+" is arriving in "+eta.get(i);
-                    }
-                    busData.append(record+" \n");
-                    System.out.print("");
-                }
-                System.out.print("");
+        for (Element arrival : strong) {
+            String bold = arrival.text();
+            if(bold.contains("#")){
+                bus.add(bold);
             }
-        };
-        Thread getBody = new Thread(r);
-        getBody.start();
+            else if(bold.contains("MIN")){
+                eta.add(bold);
+            }
+        }
+        for (Element vehicleNum : span) {
+            String bold = vehicleNum.text();
+            vehicle.add(bold);
+        }
+        for(int i = 0; i < bus.size(); i++){
+            record += "---------------------------------------------------------------------------------------------------";
+            if(eta.contains("DELAYED")){
+                record += bus.get(i)+"("+vehicle.get(i)+") "+directions.get(i)+" has been delayed. Please plan accordingly";
+            }
+            else if(eta.contains("<")){
+                record = bus.get(i)+vehicle.get(i)+" "+directions.get(i)+" is arriving in less than 1 Min ";
+            }
+            else{
+                record = bus.get(i)+vehicle.get(i)+" "+directions.get(i)+" is arriving in "+eta.get(i);
+            }
+            record += "---------------------------------------------------------------------------------------------------";
 
-        return busData;
+            //busData.append(record+" \n");
+            System.out.print("");
+        }
+        System.out.print("");
+        return record;
     }
 
 

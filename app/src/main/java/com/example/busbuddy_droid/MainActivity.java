@@ -1,8 +1,11 @@
 package com.example.busbuddy_droid;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +24,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 public class MainActivity extends AppCompatActivity {
@@ -34,12 +38,24 @@ public class MainActivity extends AppCompatActivity {
     busListDBHelper dbHandler;
     FloatingActionButton fab;
     LinearLayout busScroll;
+    LinkedList<String> favStops;
+/*
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            String eta = msg.toString();
+            TextView stop = (TextView) findViewById(17374);
+            stop.setText(eta);
 
+        }
+    };*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         dbHandler = new busListDBHelper(getApplicationContext(),null,null,1);
+        favStops = dbHandler.dbStops();
         if(dbHandler.numRows() == 0){
             Intent addBus = new Intent(this, com.example.busbuddy_droid.addBus.class);
             startActivity(addBus);
@@ -50,15 +66,16 @@ public class MainActivity extends AppCompatActivity {
             busQuestion = (TextView) findViewById(R.id.textView);
             busQuestion.setText(dbHandler.databaseToString());
             busScroll = findViewById(R.id.busList);
-
             /*
-            for(int i = 0; i < dbHandler.numRows(); i ++){
+            for(int i = 0; i < favStops.size(); i++){
+
                 TextView busData = new TextView(getApplicationContext());
-                busData.setTag(Integer.toString(i));
+                busData.setId(Integer.parseInt(favStops.get(i)));
+                //busData.setTag(favStops.get(i));
+                busData.setText("stop: "+favStops.get(i));
                 busScroll.addView(busData);
                 System.out.print("");
-            }
-            */
+            }*/
         }
         fab = findViewById(R.id.fab);
 
@@ -78,16 +95,32 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        updateBus();
 
-        TextView test = new grabData("18789",getApplicationContext()).busETA();
-
-        busScroll.addView(test);
-        System.out.println("");
-        /*
-        grabData test = new grabData("18789",getApplicationContext());
-        test.busETA();
-        */
-
+    }
+    public void updateBus(){
+        Handler handler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                TextView test = new TextView(getApplicationContext());
+                test.setText();
+                busScroll.addView(test);
+            }
+        };
+        for(int i = 0; i < favStops.size(); i++){
+            final int finalI = i;
+            String response;
+            Runnable run = new Runnable() {
+                @Override
+                public void run() {
+                    grabData test = new grabData(favStops.get(finalI));
+                    final String response = test.busETA();
+                }
+                handler.sendEmptyMessage(response);
+            };
+            Thread thread = new Thread(run);
+            thread.start();
+        }
     }
 
 }
