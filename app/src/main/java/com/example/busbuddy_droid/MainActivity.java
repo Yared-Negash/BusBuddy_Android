@@ -10,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,16 +40,20 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton fab;
     LinearLayout busScroll;
     LinkedList<String> favStops;
-/*
-    Handler handler = new Handler(){
+
+    @SuppressLint("HandlerLeak")
+    private Handler fillETA = new Handler(){
         @Override
         public void handleMessage(Message msg) {
-            String eta = msg.toString();
-            TextView stop = (TextView) findViewById(17374);
-            stop.setText(eta);
+            Bundle bundle = msg.getData();
+            String eta = bundle.getString("eta");
+            int stopID = bundle.getInt("stopID");
+
+            TextView stop = (TextView) findViewById(stopID);
+            stop.setText("TextView ID: "+stop.getId()+"**\n"+eta);
 
         }
-    };*/
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,19 +71,18 @@ public class MainActivity extends AppCompatActivity {
             busQuestion = (TextView) findViewById(R.id.textView);
             busQuestion.setText(dbHandler.databaseToString());
             busScroll = findViewById(R.id.busList);
-            /*
+
             for(int i = 0; i < favStops.size(); i++){
 
                 TextView busData = new TextView(getApplicationContext());
                 busData.setId(Integer.parseInt(favStops.get(i)));
                 //busData.setTag(favStops.get(i));
-                busData.setText("stop: "+favStops.get(i));
+                busData.setText("stop: "+favStops.get(i)+" My TextView ID is :"+busData.getId());
                 busScroll.addView(busData);
                 System.out.print("");
-            }*/
+            }
         }
         fab = findViewById(R.id.fab);
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,25 +102,28 @@ public class MainActivity extends AppCompatActivity {
         updateBus();
 
     }
+
     public void updateBus(){
-        Handler handler = new Handler(){
-            @Override
-            public void handleMessage(Message msg) {
-                TextView test = new TextView(getApplicationContext());
-                test.setText();
-                busScroll.addView(test);
-            }
-        };
+
         for(int i = 0; i < favStops.size(); i++){
-            final int finalI = i;
-            String response;
+            //final int finalI = i;
+            final int id = Integer.parseInt(favStops.get(i));
+            final String stopID = favStops.get(i);
+            final String[] response = new String[1];
+
             Runnable run = new Runnable() {
                 @Override
                 public void run() {
-                    grabData test = new grabData(favStops.get(finalI));
-                    final String response = test.busETA();
+                    grabData test = new grabData(stopID);
+                    response[0] = test.busETA();
+
+                    Message msg = fillETA.obtainMessage();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("eta",response[0]);
+                    bundle.putInt("stopID",id);
+                    msg.setData(bundle);
+                    fillETA.sendMessage(msg);
                 }
-                handler.sendEmptyMessage(response);
             };
             Thread thread = new Thread(run);
             thread.start();

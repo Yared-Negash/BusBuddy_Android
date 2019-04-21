@@ -35,13 +35,13 @@ public class grabData {
         String data = body.toString();
 
         if(data == ""){
-            return "Invalid stop ID. Please try again";
+            return "Invalid stop ID. Please try again\n";
         }
         else if(data.contains("No arrival times available.")){
-           return "No arrival times available.";
+           return "No arrival times available.\n";
         }
         else if(data.contains("No service is scheduled for this stop at this time.")){
-            return " No service is scheduled for this stop at this time.";
+            return " No service is scheduled for this stop at this time.\n";
         }
         //span element for vehicle number
         //strong tag for bus Number and eta (check if it has "MIN" inside)
@@ -67,21 +67,18 @@ public class grabData {
             String bold = vehicleNum.text();
             vehicle.add(bold);
         }
-        for(int i = 0; i < bus.size(); i++){
-            record += "---------------------------------------------------------------------------------------------------";
+        record += "---------------------------------------------------------------------------------------------------\n";
+        for(int i = 0; i < directions.size(); i++){
             if(eta.contains("DELAYED")){
-                record += bus.get(i)+"("+vehicle.get(i)+") "+directions.get(i)+" has been delayed. Please plan accordingly";
+                record += bus.get(i)+"("+vehicle.get(i)+") "+directions.get(i)+" has been delayed. Please plan accordingly\n";
             }
             else if(eta.contains("<")){
-                record = bus.get(i)+vehicle.get(i)+" "+directions.get(i)+" is arriving in less than 1 Min ";
+                record += bus.get(i)+vehicle.get(i)+" "+directions.get(i)+" is arriving in less than 1 Min\n";
             }
             else{
-                record = bus.get(i)+vehicle.get(i)+" "+directions.get(i)+" is arriving in "+eta.get(i);
+                record += bus.get(i)+vehicle.get(i)+" "+directions.get(i)+" is arriving in "+eta.get(i)+"\n";
             }
-            record += "---------------------------------------------------------------------------------------------------";
-
-            //busData.append(record+" \n");
-            System.out.print("");
+            record += "---------------------------------------------------------------------------------------------------\n";
         }
         System.out.print("");
         return record;
