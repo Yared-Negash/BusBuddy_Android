@@ -6,7 +6,12 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+<<<<<<< HEAD
 import android.widget.Toast;
+=======
+
+import java.util.LinkedList;
+>>>>>>> d8515882a82ba4497e86a3ae4602f9e1b6030c10
 
 //this class deals the database itself: reading, adding, deleting, etc
 public class busListDBHelper extends SQLiteOpenHelper {
@@ -93,5 +98,25 @@ public class busListDBHelper extends SQLiteOpenHelper {
         }
         db.close();
         return false;
+    }
+    public LinkedList<String> dbStops(){
+        LinkedList<String> dbString = new LinkedList<>();
+        SQLiteDatabase db = getWritableDatabase();
+        String query = "SELECT * FROM "+TABLE_NAME+" WHERE 1";
+
+        Cursor c = db.rawQuery(query,null);
+        ((Cursor) c).moveToFirst();
+        while(!c.isAfterLast()){
+            if(c.getString(c.getColumnIndex("id")) != null){
+                dbString.add(c.getString(c.getColumnIndex("id")));
+                /*
+                dbString += c.getString(c.getColumnIndex("id"));
+                dbString += c.getString(c.getColumnIndex("street"));
+                dbString += "\n";*/
+            }
+            c.moveToNext();
+        }
+        db.close();
+        return dbString;
     }
 }
