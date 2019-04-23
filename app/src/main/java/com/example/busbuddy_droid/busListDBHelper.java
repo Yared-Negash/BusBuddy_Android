@@ -6,14 +6,14 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
+
 //this class deals the database itself: reading, adding, deleting, etc
 public class busListDBHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "busList.db";
-
     private static final String TABLE_NAME = "busList";
-
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_STREET = "street";
 
@@ -85,6 +85,7 @@ public class busListDBHelper extends SQLiteOpenHelper {
         ((Cursor) c).moveToFirst();
         while(!c.isAfterLast()){
             String test = c.getString(c.getColumnIndex("id"));
+
             if(test.equals(stop)){
                 return true;
             }
