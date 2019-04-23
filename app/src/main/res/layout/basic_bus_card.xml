@@ -5,29 +5,51 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="4dp">
 
+<<<<<<< HEAD
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@color/#00000000">
 
+=======
+    <RelativeLayout
+        android:id="@+id/cardLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="4dp">
+>>>>>>> d8515882a82ba4497e86a3ae4602f9e1b6030c10
         <TextView
             android:id="@+id/Bus_Stop_ID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Bus_Stop_Template"
+<<<<<<< HEAD
             android:textColor="#000000"
             android:textSize="30sp" />
 
+=======
+            android:textSize="30sp"
+            android:textColor="@android:color/white"/>
+>>>>>>> d8515882a82ba4497e86a3ae4602f9e1b6030c10
         <TextView
             android:id="@+id/Bus_Stop_ID_Num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+<<<<<<< HEAD
             android:layout_below="@+id/Bus_Stop_ID"
             android:layout_marginTop="10dp"
             android:text="Bus_Stop_ID_Num"
             android:textColor="#020000"
             android:textSize="20sp" />
     </LinearLayout>
+=======
+            android:text="Bus_Stop_ID_Num"
+            android:textSize="20sp"
+            android:textColor="@android:color/white"
+            android:layout_below="@+id/Bus_Stop_ID"
+            android:layout_marginTop="10dp"/>
+    </RelativeLayout>
+>>>>>>> d8515882a82ba4497e86a3ae4602f9e1b6030c10
 
 </android.support.v7.widget.CardView>
