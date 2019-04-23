@@ -74,10 +74,20 @@ public class MainActivity extends AppCompatActivity {
 
             for(int i = 0; i < favStops.size(); i++){
 
-                TextView busData = new TextView(getApplicationContext());
+                final TextView busData = new TextView(getApplicationContext());
                 busData.setId(Integer.parseInt(favStops.get(i)));
                 //busData.setTag(favStops.get(i));
                 busData.setText("stop: "+favStops.get(i)+" My TextView ID is :"+busData.getId());
+                busData.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dbHandler.deleteStop(busData.getId());
+                        Intent restart = getIntent();
+                        finish();
+                        startActivity(restart);
+
+                    }
+                });
                 busScroll.addView(busData);
                 System.out.print("");
             }

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="4dp">
+
+    <RelativeLayout
+        android:id="@+id/cardLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="4dp">
+        <TextView
+            android:id="@+id/Bus_Stop_ID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bus_Stop_Template"
+            android:textSize="30sp"
+            android:textColor="@android:color/white"/>
+        <TextView
+            android:id="@+id/Bus_Stop_ID_Num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bus_Stop_ID_Num"
+            android:textSize="20sp"
+            android:textColor="@android:color/white"
+            android:layout_below="@+id/Bus_Stop_ID"
+            android:layout_marginTop="10dp"/>
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>
