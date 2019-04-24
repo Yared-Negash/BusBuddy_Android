@@ -4,252 +4,256 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="4dp"
-    android:layout_margin="5dp">
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:background="@android:color/white"
-    android:layout_height="match_parent">
-    <TextView
-        android:id="@+id/Bus_Stop_Location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="DisneyLand"
-        android:textSize="30sp"
-        android:textColor="@android:color/black"
-        android:layout_marginLeft="8dp"
-        />
-    <TextView
-        android:id="@+id/Bus_Stop_ID"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="18809"
-        android:textSize="20sp"
-        android:textColor="@android:color/black"
-        android:layout_below="@id/Bus_Stop_Location"
-        android:layout_alignLeft="@id/Bus_Stop_Location"
-        android:layout_marginTop="8dp"/>
-    <LinearLayout
-        android:id="@+id/Bus_ETA_Button_Layout"
+    android:layout_margin="8dp">
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/Bus_Stop_ID"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:background="#FFFFFF">
+
+        <TextView
+            android:id="@+id/Bus_Stop_Location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:text="DisneyLand"
+            android:textColor="@android:color/black"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/Bus_Stop_ID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/Bus_Stop_Location"
+            android:layout_alignLeft="@id/Bus_Stop_Location"
+            android:layout_marginTop="8dp"
+            android:text="18809"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
 
         <LinearLayout
-            android:id="@+id/relative_ETA_Data"
+            android:id="@+id/Bus_ETA_Button_Layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#B96D6D"
-            android:orientation="horizontal"
-            android:layout_marginVertical="2dp">
+            android:layout_below="@id/Bus_Stop_ID"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="8dp"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/Bus_Number"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:id="@+id/relative_ETA_Data"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_weight="1"
-                android:maxLines="1"
-                android:text="Bus 73"
-                android:textColor="@android:color/black"
-                android:textSize="15sp" />
+                android:layout_marginVertical="2dp"
+                android:background="#B96D6D"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/Bus_Direction"
-                android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/Bus_Number"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:maxLines="1"
+                    android:text="Bus 73"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/Bus_Direction"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:text="MAIN STREET WEST ORANGE"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/Bus_ETA"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+
+                    android:maxLines="1"
+                    android:text="Arriving in 10 Min"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/relative_ETA_Data"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_weight="1"
-                android:text="MAIN STREET WEST ORANGE"
-                android:textColor="@android:color/black"
-                android:textSize="15sp" />
+                android:layout_marginVertical="2dp"
+                android:background="#9CB96D"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/Bus_ETA"
-                android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/Bus_Number"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:maxLines="1"
+                    android:text="Bus 73"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/Bus_Direction"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:text="MAIN STREET WEST ORANGE"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/Bus_ETA"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+
+                    android:maxLines="1"
+                    android:text="Arriving in 10 Min"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/relative_ETA_Data"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_weight="1"
+                android:layout_marginVertical="2dp"
+                android:background="#B96D6D"
+                android:orientation="horizontal">
 
-                android:maxLines="1"
-                android:text="Arriving in 10 Min"
-                android:textColor="@android:color/black"
-                android:textSize="15sp" />
+                <TextView
+                    android:id="@+id/Bus_Number"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:maxLines="1"
+                    android:text="Bus 73"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/Bus_Direction"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:text="MAIN STREET WEST ORANGE"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/Bus_ETA"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+
+                    android:maxLines="1"
+                    android:text="Arriving in 10 Min"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/relative_ETA_Data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="2dp"
+                android:background="#9CB96D"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/Bus_Number"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:maxLines="1"
+                    android:text="Bus 73"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/Bus_Direction"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:text="MAIN STREET WEST ORANGE"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/Bus_ETA"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+
+                    android:maxLines="1"
+                    android:text="Arriving in 10 Min"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp" />
+            </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/relative_ETA_Data"
+        <View
+            android:id="@+id/Card_Divider"
             android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_below="@id/Bus_ETA_Button_Layout"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="8dp"
+            android:background="@android:color/darker_gray" />
+
+        <TextView
+            android:id="@+id/deleteStop_button"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#9CB96D"
-            android:orientation="horizontal"
-            android:layout_marginVertical="2dp">
-
-            <TextView
-                android:id="@+id/Bus_Number"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_weight="1"
-                android:maxLines="1"
-                android:text="Bus 73"
-                android:textColor="@android:color/black"
-                android:textSize="15sp" />
-
-            <TextView
-                android:id="@+id/Bus_Direction"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_weight="1"
-                android:text="MAIN STREET WEST ORANGE"
-                android:textColor="@android:color/black"
-                android:textSize="15sp" />
-
-            <TextView
-                android:id="@+id/Bus_ETA"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_weight="1"
-
-                android:maxLines="1"
-                android:text="Arriving in 10 Min"
-                android:textColor="@android:color/black"
-                android:textSize="15sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/relative_ETA_Data"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#B96D6D"
-            android:orientation="horizontal"
-            android:layout_marginVertical="2dp">
-
-            <TextView
-                android:id="@+id/Bus_Number"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_weight="1"
-                android:maxLines="1"
-                android:text="Bus 73"
-                android:textColor="@android:color/black"
-                android:textSize="15sp" />
-
-            <TextView
-                android:id="@+id/Bus_Direction"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_weight="1"
-                android:text="MAIN STREET WEST ORANGE"
-                android:textColor="@android:color/black"
-                android:textSize="15sp" />
-
-            <TextView
-                android:id="@+id/Bus_ETA"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_weight="1"
-
-                android:maxLines="1"
-                android:text="Arriving in 10 Min"
-                android:textColor="@android:color/black"
-                android:textSize="15sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/relative_ETA_Data"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#9CB96D"
-            android:orientation="horizontal"
-            android:layout_marginVertical="2dp">
-
-            <TextView
-                android:id="@+id/Bus_Number"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_weight="1"
-                android:maxLines="1"
-                android:text="Bus 73"
-                android:textColor="@android:color/black"
-                android:textSize="15sp" />
-
-            <TextView
-                android:id="@+id/Bus_Direction"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_weight="1"
-                android:text="MAIN STREET WEST ORANGE"
-                android:textColor="@android:color/black"
-                android:textSize="15sp" />
-
-            <TextView
-                android:id="@+id/Bus_ETA"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_weight="1"
-
-                android:maxLines="1"
-                android:text="Arriving in 10 Min"
-                android:textColor="@android:color/black"
-                android:textSize="15sp" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <View
-        android:id="@+id/Card_Divider"
-        android:layout_below="@id/Bus_ETA_Button_Layout"
-        android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:background="@android:color/darker_gray"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"/>
-    <TextView
-        android:id="@+id/deleteStop_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/Card_Divider"
-        android:layout_alignRight="@id/Card_Divider"
-        android:text="Delete Stop"
-        android:textColor="@android:color/holo_red_dark"
-        android:textSize="20sp"/>
+            android:layout_below="@id/Card_Divider"
+            android:layout_alignRight="@id/Card_Divider"
+            android:text="Delete Stop"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="20sp" />
 
 
-</RelativeLayout>
+    </RelativeLayout>
 </android.support.v7.widget.CardView>

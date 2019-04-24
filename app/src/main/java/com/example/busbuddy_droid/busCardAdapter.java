@@ -1,28 +1,46 @@
 package com.example.busbuddy_droid;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.LinkedList;
+
+
 
 public class busCardAdapter extends RecyclerView.Adapter<busCardAdapter.ViewHolder> {
     private LinkedList<completeStop> buses;
     public static class ViewHolder extends RecyclerView.ViewHolder{
         public TextView stopName, stopID,deleteStop;
         public LinearLayout busLayout;
+        busListDBHelper dbHandler;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull final View itemView) {
             super(itemView);
             //references to views in basic_bus_card.xml
             stopName = itemView.findViewById(R.id.Bus_Stop_Location);
             stopID = itemView.findViewById(R.id.Bus_Stop_ID);
             busLayout = itemView.findViewById(R.id.Bus_ETA_Button_Layout);
             deleteStop = itemView.findViewById(R.id.deleteStop_button);
+            deleteStop.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    int stopID = Integer.parseInt(deleteStop.getTag().toString());
+                    dbHandler = new busListDBHelper(itemView.getContext(), null, null, 1);
+                    dbHandler.deleteStop(stopID);
+                    //Intent restart = new Intent(itemView.getContext(),com.example.busbuddy_droid.MainActivity.class);
+
+                    System.exit(0);
+
+                }
+            });
 
         }
     }
@@ -46,6 +64,7 @@ public class busCardAdapter extends RecyclerView.Adapter<busCardAdapter.ViewHold
         completeStop currentBus = buses.get(i);
         viewHolder.stopID.setText(currentBus.getStopID());
         viewHolder.stopName.setText("Stop "+i);
+        viewHolder.deleteStop.setTag(currentBus.getStopID());
     }
 
     @Override
