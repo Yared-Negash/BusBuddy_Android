@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import org.w3c.dom.Text;
 
@@ -32,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
     EditText busNum;
     EditText direction;
     EditText street;
-    TextView busQuestion;
     public Button submitBus;
     public static String sendText = "com.example.busbuddy_droid.EXTRA_TEXT";
     public static int checkActivity = 1;
@@ -67,11 +67,7 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
         else{
-            //setContentView(R.layout.activity_main);
-            busQuestion = (TextView) findViewById(R.id.textView);
-            busQuestion.setText(dbHandler.databaseToString());
             busScroll = findViewById(R.id.busList);
-
             for(int i = 0; i < favStops.size(); i++){
 
                 final TextView busData = new TextView(getApplicationContext());
@@ -105,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(addAnotherbus);
                 //finish();
                 //dbHandler.deleteStop(19553);
-                busQuestion.setText(dbHandler.databaseToString());
 
             }
         });

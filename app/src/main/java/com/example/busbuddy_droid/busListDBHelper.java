@@ -6,17 +6,9 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-<<<<<<< HEAD
-<<<<<<< HEAD
-import android.widget.Toast;
-=======
+
 
 import java.util.LinkedList;
->>>>>>> d8515882a82ba4497e86a3ae4602f9e1b6030c10
-=======
-
-import java.util.LinkedList;
->>>>>>> d8515882a82ba4497e86a3ae4602f9e1b6030c10
 
 //this class deals the database itself: reading, adding, deleting, etc
 public class busListDBHelper extends SQLiteOpenHelper {
