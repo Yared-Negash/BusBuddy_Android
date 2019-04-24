@@ -10,6 +10,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -38,22 +40,10 @@ public class MainActivity extends AppCompatActivity {
     public static int checkActivity = 1;
     busListDBHelper dbHandler;
     FloatingActionButton fab;
-    LinearLayout busScroll;
     LinkedList<String> favStops;
-
-    @SuppressLint("HandlerLeak")
-    private Handler fillETA = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            Bundle bundle = msg.getData();
-            String eta = bundle.getString("eta");
-            int stopID = bundle.getInt("stopID");
-
-            TextView stop = (TextView) findViewById(stopID);
-            stop.setText("TextView ID: "+stop.getId()+"**\n"+eta);
-
-        }
-    };
+    private RecyclerView myRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
         else{
-            busScroll = findViewById(R.id.busList);
             for(int i = 0; i < favStops.size(); i++){
 
                 final TextView busData = new TextView(getApplicationContext());
@@ -84,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
-                busScroll.addView(busData);
                 System.out.print("");
             }
         }
@@ -104,10 +92,9 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        updateBus();
-
+        new updateBus().execute();
     }
-
+    /*
     public void updateBus(){
 
         for(int i = 0; i < favStops.size(); i++){
@@ -120,11 +107,12 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     grabData test = new grabData(stopID);
-                    response[0] = test.busETA();
+                    LinkedList<busObject> downloadedETA = test.busETA();
 
                     Message msg = fillETA.obtainMessage();
                     Bundle bundle = new Bundle();
-                    bundle.putString("eta",response[0]);
+                    bundle.putString("eta",downloadedETA);
+                    bundle.put
                     bundle.putInt("stopID",id);
                     msg.setData(bundle);
                     fillETA.sendMessage(msg);
@@ -132,6 +120,44 @@ public class MainActivity extends AppCompatActivity {
             };
             Thread thread = new Thread(run);
             thread.start();
+        }
+    }*/
+    public class updateBus extends AsyncTask<Void,Void,Void>{
+        LinkedList<completeStop> stops = new LinkedList<>();
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            for(int i = 0; i < favStops.size(); i++) {
+                //final int finalI = i;
+                int id = Integer.parseInt(favStops.get(i));
+                final String stopID = favStops.get(i);
+
+                grabData test = new grabData(stopID);
+                LinkedList<busObject> downloadedETA = test.busETA();
+                completeStop temp = new completeStop(stopID,downloadedETA);
+                stops.add(temp);
+            }
+            /*
+            myRecyclerView = findViewById(R.id.recyclerView);
+            myRecyclerView.setHasFixedSize(true);
+            mLayoutManager = new LinearLayoutManager(getApplicationContext());
+            mAdapter = new busCardAdapter(stops);
+            myRecyclerView.setLayoutManager(mLayoutManager);
+            myRecyclerView.setAdapter(mAdapter);
+            */
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            myRecyclerView = findViewById(R.id.recyclerView);
+            myRecyclerView.setHasFixedSize(true);
+            mLayoutManager = new LinearLayoutManager(getApplicationContext());
+            mAdapter = new busCardAdapter(stops);
+            myRecyclerView.setLayoutManager(mLayoutManager);
+            myRecyclerView.setAdapter(mAdapter);
+
         }
     }
 

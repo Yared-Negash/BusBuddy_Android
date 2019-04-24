@@ -23,7 +23,7 @@ public class grabData {
     public grabData(String stopID) {
         this.stopID = stopID;
     }
-    public String busETA(){
+    public LinkedList<busObject> busETA(){
         String record = "";
         Document body = null;
         try {
@@ -35,13 +35,13 @@ public class grabData {
         String data = body.toString();
 
         if(data == ""){
-            return "Invalid stop ID. Please try again\n";
+            return null;
         }
         else if(data.contains("No arrival times available.")){
-           return "No arrival times available.\n";
+            return null;
         }
         else if(data.contains("No service is scheduled for this stop at this time.")){
-            return " No service is scheduled for this stop at this time.\n";
+            return null;
         }
         //span element for vehicle number
         //strong tag for bus Number and eta (check if it has "MIN" inside)
@@ -49,6 +49,7 @@ public class grabData {
         LinkedList<String> directions = regexFinder.findString("To[^&nbsp]+",data);
         LinkedList<String> eta = new LinkedList<String>();
         LinkedList<String> vehicle = new LinkedList<String>();
+        LinkedList<busObject> buses = new LinkedList<>();
 
 
         Elements strong = body.getElementsByTag("strong");
@@ -67,21 +68,21 @@ public class grabData {
             String bold = vehicleNum.text();
             vehicle.add(bold);
         }
-        record += "---------------------------------------------------------------------------------------------------\n";
         for(int i = 0; i < directions.size(); i++){
+            busObject temp;
             if(eta.contains("DELAYED")){
-                record += bus.get(i)+"("+vehicle.get(i)+") "+directions.get(i)+" has been delayed. Please plan accordingly\n";
+                temp = new busObject(bus.get(i),directions.get(i)," has been delayed. Please plan accordingly\n",vehicle.get(i));
             }
             else if(eta.contains("<")){
-                record += bus.get(i)+vehicle.get(i)+" "+directions.get(i)+" is arriving in less than 1 Min\n";
+                temp = new busObject(bus.get(i),directions.get(i)," is arriving in less than 1 Min\n",vehicle.get(i));
             }
             else{
-                record += bus.get(i)+vehicle.get(i)+" "+directions.get(i)+" is arriving in "+eta.get(i)+"\n";
+                temp = new busObject(bus.get(i),directions.get(i),eta.get(i),vehicle.get(i));
             }
-            record += "---------------------------------------------------------------------------------------------------\n";
+            buses.add(temp);
         }
         System.out.print("");
-        return record;
+        return buses;
     }
 
 

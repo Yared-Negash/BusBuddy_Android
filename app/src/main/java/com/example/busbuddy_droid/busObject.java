@@ -1,13 +1,13 @@
 package com.example.busbuddy_droid;
 
 public class busObject {
-    private String Bus, Direction;
-    private int ETA;
+    private String Bus, Direction,ETA, Vehicle;
 
-    public busObject(String bus, String direction, int ETA) {
+    public busObject(String bus, String direction, String ETA, String vehicle) {
         Bus = bus;
         Direction = direction;
         this.ETA = ETA;
+        Vehicle = vehicle;
     }
 
     public String getBus() {
@@ -26,11 +26,19 @@ public class busObject {
         Direction = direction;
     }
 
-    public int getETA() {
+    public String getETA() {
         return ETA;
     }
 
-    public void setETA(int ETA) {
+    public void setETA(String ETA) {
         this.ETA = ETA;
+    }
+
+    public String getVehicle() {
+        return Vehicle;
+    }
+
+    public void setVehicle(String vehicle) {
+        Vehicle = vehicle;
     }
 }
