@@ -64,6 +64,9 @@ public class grabData {
             else if(bold.contains("MIN")){
                 eta.add(bold);
             }
+            else{
+                eta.add(bold);
+            }
         }
         for (Element vehicleNum : span) {
             String bold = vehicleNum.text();
