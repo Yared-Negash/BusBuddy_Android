@@ -18,6 +18,7 @@ import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 
 public class grabData {
+    //downloads ETA data for each stop
     private String stopID;
 
     public grabData(String stopID) {

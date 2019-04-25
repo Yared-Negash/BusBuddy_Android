@@ -2,7 +2,7 @@ package com.example.busbuddy_droid;
 
 
 public class busList {
-
+    //object used to pass data to db. Used for adding a new station to favorite stops
     private int _id;
     private String _street;
 

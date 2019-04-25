@@ -95,19 +95,6 @@ public class stopList extends AppCompatActivity {
             try{
                 Document document = Jsoup.connect("http://mybusnow.njtransit.com/bustime/wireless/html/"+directionLink.substring(0,directionLink.indexOf("|"))).get();
                 value = document.toString();
-                /*
-                URL busURL = new URL("http://mybusnow.njtransit.com/bustime/wireless/html/"+directionLink.substring(0,directionLink.indexOf("|")));
-
-                HttpURLConnection connect = (HttpURLConnection) busURL.openConnection();
-                connect.setRequestMethod("GET");
-                connect.connect();
-
-                BufferedReader bf = new BufferedReader((new InputStreamReader(connect.getInputStream())));
-
-                while(bf.readLine() != null){
-                    value += bf.readLine();
-                }*/
-
             }
             catch (Exception e){
                 e.printStackTrace();

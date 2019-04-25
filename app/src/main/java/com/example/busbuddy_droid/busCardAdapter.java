@@ -62,8 +62,8 @@ public class busCardAdapter extends RecyclerView.Adapter<busCardAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         //pass values to Views in ViewHolder. Retrieved from mainactivity passing info to this
         completeStop currentBus = buses.get(i);
+        viewHolder.stopName.setText(currentBus.getStopName());
         viewHolder.stopID.setText(currentBus.getStopID());
-        viewHolder.stopName.setText("Stop "+i);
         viewHolder.deleteStop.setTag(currentBus.getStopID());
     }
 

@@ -96,8 +96,9 @@ public class busListDBHelper extends SQLiteOpenHelper {
         db.close();
         return false;
     }
-    public LinkedList<String> dbStops(){
-        LinkedList<String> dbString = new LinkedList<>();
+    public LinkedList<completeStop> dbStops(){
+
+        LinkedList<completeStop> favoriteStops = new LinkedList<>();
         SQLiteDatabase db = getWritableDatabase();
         String query = "SELECT * FROM "+TABLE_NAME+" WHERE 1";
 
@@ -105,15 +106,14 @@ public class busListDBHelper extends SQLiteOpenHelper {
         ((Cursor) c).moveToFirst();
         while(!c.isAfterLast()){
             if(c.getString(c.getColumnIndex("id")) != null){
-                dbString.add(c.getString(c.getColumnIndex("id")));
-                /*
-                dbString += c.getString(c.getColumnIndex("id"));
-                dbString += c.getString(c.getColumnIndex("street"));
-                dbString += "\n";*/
+                String stopID = c.getString(c.getColumnIndex("id"));
+                String stationName = c.getString(c.getColumnIndex("street"));
+                stationName = stationName.substring(1);
+                favoriteStops.add(new completeStop(stopID,stationName,null));
             }
             c.moveToNext();
         }
         db.close();
-        return dbString;
+        return favoriteStops;
     }
 }
