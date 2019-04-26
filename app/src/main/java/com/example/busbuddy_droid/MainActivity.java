@@ -102,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
 
                     stops.remove(position);
                     mAdapter.notifyItemRemoved(position);
+                    favStops = dbHandler.dbStops();
 
                     Toast toast = Toast.makeText(getApplicationContext(),"You are deleted card "+position,Toast.LENGTH_SHORT);
                     toast.show();
