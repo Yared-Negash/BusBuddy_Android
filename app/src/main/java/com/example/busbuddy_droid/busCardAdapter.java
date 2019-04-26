@@ -19,32 +19,58 @@ import java.util.LinkedList;
 
 public class busCardAdapter extends RecyclerView.Adapter<busCardAdapter.ViewHolder> {
     private LinkedList<completeStop> buses;
+
+    //mListener contains the Activity
+    private OnItemClickListener mListener;
+
+    public interface OnItemClickListener{
+        void onItemClick(int position);
+        void deleteClick(int position);
+
+
+    }
+    public void setOnItemClickListener(OnItemClickListener listener){
+        mListener = listener;
+
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder{
         public TextView stopName, stopID,deleteStop,busETA;
         public LinearLayout busLayout;
         busListDBHelper dbHandler;
 
-        public ViewHolder(@NonNull final View itemView) {
+        public ViewHolder(@NonNull final View itemView, final OnItemClickListener listener) {
+            //itemView is the actual card
+
             super(itemView);
             //references to views in basic_bus_card.xml
-            //relativeLayout = itemView.findViewById(R.id.cardRelativeLayout);
             stopName = itemView.findViewById(R.id.Bus_Stop_Location);
             stopID = itemView.findViewById(R.id.Bus_Stop_ID);
             busLayout = itemView.findViewById(R.id.Bus_ETA_Layout);
             busETA = itemView.findViewById(R.id.etaTextView);
 
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
+
             deleteStop = itemView.findViewById(R.id.deleteStop_button);
             deleteStop.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    int stopID = Integer.parseInt(deleteStop.getTag().toString());
-                    dbHandler = new busListDBHelper(itemView.getContext(), null, null, 1);
-                    dbHandler.deleteStop(stopID);
-                    //Intent restart = new Intent(itemView.getContext(),com.example.busbuddy_droid.MainActivity.class);
-
-                    System.exit(0);
-
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.deleteClick(position);
+                        }
+                    }
                 }
             });
 
@@ -60,7 +86,7 @@ public class busCardAdapter extends RecyclerView.Adapter<busCardAdapter.ViewHold
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         //passing entire card layout to adapter
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.basic_bus_card,viewGroup,false);
-        ViewHolder viewHolder = new ViewHolder(v);
+        ViewHolder viewHolder = new ViewHolder(v,mListener);
         return viewHolder;
     }
 

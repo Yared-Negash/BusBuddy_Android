@@ -74,10 +74,10 @@ public class grabData {
         }
         for(int i = 0; i < directions.size(); i++){
             busObject temp;
-            if(eta.contains("DELAYED")){
+            if(eta.get(i).contains("DELAYED")){
                 temp = new busObject(bus.get(i),directions.get(i)," has been delayed. Please plan accordingly\n",vehicle.get(i));
             }
-            else if(eta.contains("<")){
+            else if(eta.get(i).contains("<")){
                 temp = new busObject(bus.get(i),directions.get(i)," is arriving in less than 1 Min\n",vehicle.get(i));
             }
             else{

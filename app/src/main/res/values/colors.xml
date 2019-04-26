@@ -5,4 +5,9 @@
     <color name="colorAccent">#D81B60</color>
     <color name="inputBusActivity">#42A9D6</color>
     <color name="textColor">#FFFFFF</color>
+    <color name="backgroundColor">#1986AF</color>
+    <color name="cardBackgroundColor">#FFFFFF</color>
+    <color name="card_Text_color">#000000</color>
+
+    1986AF
 </resources>

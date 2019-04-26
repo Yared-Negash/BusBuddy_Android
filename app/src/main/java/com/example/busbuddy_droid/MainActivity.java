@@ -1,6 +1,9 @@
 package com.example.busbuddy_droid;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -10,6 +13,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.LinkedList;
 
 public class MainActivity extends AppCompatActivity {
@@ -17,13 +22,15 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton fab;
     private LinkedList<completeStop> favStops;
     private RecyclerView myRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private busCardAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private BroadcastReceiver minRefresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         dbHandler = new busListDBHelper(getApplicationContext(),null,null,1);
         favStops = dbHandler.dbStops();
@@ -77,9 +84,62 @@ public class MainActivity extends AppCompatActivity {
             myRecyclerView.setLayoutManager(mLayoutManager);
             myRecyclerView.setAdapter(mAdapter);
 
+            mAdapter.setOnItemClickListener(new busCardAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(int position) {
+                    stops.get(position);
+                    Toast toast = Toast.makeText(getApplicationContext(),"You clicked card "+stops.get(position).getStopName(),Toast.LENGTH_SHORT);
+                    toast.show();
+
+                    Intent trackBus = new Intent(getApplicationContext(), com.example.busbuddy_droid.trackList.class);
+                    startActivity(trackBus);
+
+                }
+
+                @Override
+                public void deleteClick(int position) {
+                    dbHandler.deleteStop(Integer.parseInt(stops.get(position).getStopID()));
+
+                    stops.remove(position);
+                    mAdapter.notifyItemRemoved(position);
+
+                    Toast toast = Toast.makeText(getApplicationContext(),"You are deleted card "+position,Toast.LENGTH_SHORT);
+                    toast.show();
+                    if(dbHandler.numRows() == 0){
+                        Intent addBus = new Intent(getApplicationContext(), com.example.busbuddy_droid.addBus.class);
+                        startActivity(addBus);
+                        finish();
+                    }
+
+                }
+            });
+
         }
     }
+    public void refreshPage(){
+        IntentFilter refreshPage = new IntentFilter();
+        refreshPage.addAction(Intent.ACTION_TIME_TICK);
+        minRefresh = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Toast.makeText(getApplicationContext(),"Updating Bus ETA's",Toast.LENGTH_SHORT).show();
+                new updateBus().execute();
+            }
+        };
+        registerReceiver(minRefresh,refreshPage);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshPage();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(minRefresh);
+    }
 }
 
 

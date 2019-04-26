@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundColor">
+    <include
+        android:id="@+id/appbar"
+        layout="@layout/app_bar" />
+
+    <TextView
+        android:id="@+id/Bus_Stop_Location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="DisneyLand"
+        android:textColor="@color/card_Text_color"
+        android:background="@color/cardBackgroundColor"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appbar" />
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="648dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Bus_Stop_Location"
+        app:layout_constraintVertical_bias="0.52" />
+
+
+</android.support.constraint.ConstraintLayout>
