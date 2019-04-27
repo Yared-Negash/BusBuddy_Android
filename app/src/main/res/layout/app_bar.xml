@@ -6,14 +6,27 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <TextView
-            android:layout_centerInParent="true"
+            android:id="@+id/bus_buddy_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="BusBuddy"
-            android:textColor="@android:color/white"
+            android:layout_centerInParent="true"
+            android:text="@string/app_Name"
+            android:textAlignment="center"
+            android:textColor="@color/textColor"
             android:textSize="50sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/refresh_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_toRightOf="@+id/bus_buddy_logo"
+            android:src="@drawable/refresh_appbar"
+            android:layout_centerVertical="true"
+            android:layout_marginHorizontal="20dp"
+            />
     </RelativeLayout>
 
 </android.support.v7.widget.Toolbar>

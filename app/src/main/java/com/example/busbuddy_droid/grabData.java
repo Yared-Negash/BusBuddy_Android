@@ -78,7 +78,7 @@ public class grabData {
                 temp = new busObject(bus.get(i),directions.get(i)," has been delayed. Please plan accordingly\n",vehicle.get(i));
             }
             else if(eta.get(i).contains("<")){
-                temp = new busObject(bus.get(i),directions.get(i)," is arriving in less than 1 Min\n",vehicle.get(i));
+                temp = new busObject(bus.get(i),directions.get(i)," Now \n",vehicle.get(i));
             }
             else{
                 temp = new busObject(bus.get(i),directions.get(i),eta.get(i),vehicle.get(i));

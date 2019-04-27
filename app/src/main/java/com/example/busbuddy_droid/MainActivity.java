@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private busCardAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private BroadcastReceiver minRefresh;
+    private ImageView refresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +55,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(addAnotherbus);
             }
         });
-        new updateBus().execute();
+        //new updateBus().execute();
+        refresh = findViewById(R.id.refresh_button);
+        refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                manual_Refresh();
+            }
+        });
     }
 
     public class updateBus extends AsyncTask<Void,Void,Void>{
@@ -90,8 +99,13 @@ public class MainActivity extends AppCompatActivity {
                     stops.get(position);
                     Toast toast = Toast.makeText(getApplicationContext(),"You clicked card "+stops.get(position).getStopName(),Toast.LENGTH_SHORT);
                     toast.show();
-
+                    if(stops.get(position).getBuses() == null){
+                        Toast.makeText(getApplicationContext(),"No buses available for "+stops.get(position).getStopName(),Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     Intent trackBus = new Intent(getApplicationContext(), com.example.busbuddy_droid.trackList.class);
+                    trackBus.putExtra("stopID",favStops.get(position).getStopID());
+                    trackBus.putExtra("stopName",favStops.get(position).getStopName());
                     startActivity(trackBus);
 
                 }
@@ -129,10 +143,17 @@ public class MainActivity extends AppCompatActivity {
         };
         registerReceiver(minRefresh,refreshPage);
     }
+    public void manual_Refresh(){
+
+        Toast.makeText(getApplicationContext(),"Manually updating Bus ETA's",Toast.LENGTH_SHORT).show();
+        new updateBus().execute();
+    }
 
     @Override
     protected void onResume() {
+        Toast.makeText(getApplicationContext(),"On Resume Refresh",Toast.LENGTH_SHORT).show();
         super.onResume();
+        manual_Refresh();
         refreshPage();
     }
 

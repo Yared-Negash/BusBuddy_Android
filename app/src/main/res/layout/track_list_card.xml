@@ -41,6 +41,7 @@
             <TextView
                 android:id="@+id/Bus_track_eta"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
                 android:layout_weight="1"
@@ -53,6 +54,8 @@
             <TextView
                 android:id="@+id/approx_time"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
                 android:layout_marginTop="1dp"
                 android:layout_weight="1"
                 android:maxLines="1"
