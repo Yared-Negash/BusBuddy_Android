@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     private BroadcastReceiver minRefresh;
     private ImageView refresh;
+    private ImageView view_tracked_buses;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 manual_Refresh();
+            }
+        });
+        view_tracked_buses = findViewById(R.id.check_tracked_button);
+        view_tracked_buses.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                trackDB test = new trackDB(getApplicationContext(),null,null,1);
+                if(test.numRows() == 0){
+                    Toast.makeText(getApplicationContext(),"You have not tracked a Bus yet.",Toast.LENGTH_LONG).show();
+                }
+                else{
+                    Intent changetoTrackActivity = new Intent(getApplicationContext(),viewTracking.class);
+                    startActivity(changetoTrackActivity);
+                }
             }
         });
     }

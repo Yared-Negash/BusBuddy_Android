@@ -28,6 +28,10 @@ public class trackList extends AppCompatActivity {
     private String stopID;
     private String stopName;
     private BroadcastReceiver minRefresh;
+    private trackDB trackingDB;
+
+    private ImageView view_tracked_buses;
+    private TextView home;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,7 +50,28 @@ public class trackList extends AppCompatActivity {
                 manual_Refresh();
             }
         });
-
+        trackingDB = new trackDB(getApplicationContext(),null,null,1);
+        view_tracked_buses = findViewById(R.id.check_tracked_button);
+        view_tracked_buses.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                trackDB test = new trackDB(getApplicationContext(),null,null,1);
+                if(test.numRows() == 0){
+                    Toast.makeText(getApplicationContext(),"You have not tracked a Bus yet.",Toast.LENGTH_LONG).show();
+                }
+                Intent changetoTrackActivity = new Intent(getApplicationContext(),viewTracking.class);
+                startActivity(changetoTrackActivity);
+            }
+        });
+        home = findViewById(R.id.bus_buddy_logo);
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goHome = new Intent(getApplicationContext(),MainActivity.class);
+                goHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(goHome);
+            }
+        });
 
     }
 
@@ -75,9 +100,12 @@ public class trackList extends AppCompatActivity {
                 @Override
                 public void onItemClick(int position) {
                     String vehicle = "";
+                    String stop_id = "";
                     vehicle = stops.get(0).getBuses().get(position).getVehicle();
+                    stop_id = stops.get(0).getStopID();
                     Toast toast = Toast.makeText(getApplicationContext(),"You clicked "+vehicle,Toast.LENGTH_SHORT);
                     toast.show();
+                    trackingDB.addBus(vehicle,stop_id);
 
                 }
             });
@@ -100,6 +128,7 @@ public class trackList extends AppCompatActivity {
 
         Toast.makeText(getApplicationContext(),"Manually updating Bus ETA's",Toast.LENGTH_SHORT).show();
         new updateBus().execute();
+        Toast.makeText(getApplicationContext(), "Here is the db \n"+trackingDB.databaseToString(), Toast.LENGTH_SHORT).show();
     }
 
     @Override

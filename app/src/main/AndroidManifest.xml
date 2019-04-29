@@ -12,10 +12,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".stopList"></activity>
+        <activity android:name=".viewTracking"></activity>
+        <activity
+            android:name=".bottom_nav"
+            android:label="@string/title_activity_bottom_nav" />
+        <activity android:name=".stopList" />
         <activity android:name=".addBus" />
         <activity android:name=".getDirection" />
-        <activity android:name=".trackList"></activity>
+        <activity android:name=".trackList" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
