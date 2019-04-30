@@ -107,7 +107,7 @@ public class viewTrackingAdapter extends RecyclerView.Adapter<viewTrackingAdapte
         try{
             if(eta.contains("Delayed")){
                 viewHolder.busEta.setText("Delayed");
-                viewHolder.approxArrival.setText("");
+                viewHolder.approxArrival.setText("TBA");
                 return;
             }
         }catch (Exception e){
