@@ -6,20 +6,30 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 
 import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static android.content.ContentValues.TAG;
+
 //this class deals the database itself: reading, adding, deleting, etc
 public class trackDB extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3;
     private static final String DATABASE_NAME = "trackList.db";
     private static final String TABLE_NAME = "trackList";
+
     private static final String COLUMN_VEHICLE = "vehicle";
     private static final String COLUMN_STOPID = "stopid";
+    private static final String COLUMN_BUSNUM = "bus";
+    private static final String COLUMN_Direction = "direction";
+    private static final String COLUMN_ETA = "eta";
+    private static final String COLUMN_STATIONNAME = "stationname";
+
+
 
     public trackDB(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, TABLE_NAME, null, DATABASE_VERSION);
@@ -29,7 +39,11 @@ public class trackDB extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String query = "CREATE TABLE " +TABLE_NAME+ "(" +
                 COLUMN_VEHICLE + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_STOPID + " TEXT" +
+                COLUMN_STATIONNAME + " TEXT, "+
+                COLUMN_STOPID + " TEXT, " +
+                COLUMN_BUSNUM + " TEXT, " +
+                COLUMN_Direction + " TEXT, "+
+                COLUMN_ETA + " TEXT"+
                 ");";
 
         db.execSQL(query);
@@ -42,7 +56,7 @@ public class trackDB extends SQLiteOpenHelper {
     }
 
     //adding row to table
-    public void addBus(String vehicle_id, String stop_id){
+    public void addBus(String vehicle_id, String stop_id, String bus, String direction, String eta,String stationName){
         //(Vehicle 5850)
         int vehicle;
         vehicle_id = vehicle_id.substring(9,vehicle_id.length()-1);
@@ -51,6 +65,11 @@ public class trackDB extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(COLUMN_VEHICLE,vehicle );
         values.put(COLUMN_STOPID,stop_id);
+        values.put(COLUMN_BUSNUM,bus);
+        values.put(COLUMN_Direction,direction);
+        values.put(COLUMN_ETA,checkETA(eta));
+        values.put(COLUMN_STATIONNAME, stationName);
+
         SQLiteDatabase db = getWritableDatabase();
         db.insert(TABLE_NAME,null,values);
         db.close();
@@ -78,7 +97,11 @@ public class trackDB extends SQLiteOpenHelper {
         while(!c.isAfterLast()){
             if(c.getString(c.getColumnIndex("vehicle")) != null){
                 dbString += c.getString(c.getColumnIndex("vehicle"));
+                dbString += " | "+ c.getString(c.getColumnIndex("stationname"));
                 dbString += " | "+ c.getString(c.getColumnIndex("stopid"));
+                dbString += " | "+ c.getString(c.getColumnIndex("bus"));
+                dbString += " | "+ c.getString(c.getColumnIndex("direction"));
+                dbString += " | "+ c.getString(c.getColumnIndex("eta"));
                 dbString += "\n";
             }
             c.moveToNext();
@@ -88,13 +111,13 @@ public class trackDB extends SQLiteOpenHelper {
     }
     public boolean searchVehicle(String vehicle){
         SQLiteDatabase db = getWritableDatabase();
+        vehicle = vehicle.substring(9,vehicle.length()-1);
         String query = "SELECT * FROM "+TABLE_NAME+" WHERE 1";
 
         Cursor c = db.rawQuery(query,null);
         ((Cursor) c).moveToFirst();
         while(!c.isAfterLast()){
             String test = c.getString(c.getColumnIndex("vehicle"));
-
             if(test.equals(vehicle)){
                 return true;
             }
@@ -103,10 +126,38 @@ public class trackDB extends SQLiteOpenHelper {
         db.close();
         return false;
     }
-    /*
+
+    public void updateETA(String vehicle, String eta){
+        if(searchVehicle(vehicle) == true){
+            vehicle = vehicle.substring(9,vehicle.length()-1);
+            SQLiteDatabase db = getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put(COLUMN_ETA,checkETA(eta));
+            db.update(TABLE_NAME,values,COLUMN_VEHICLE+"="+vehicle,null);
+            db.close();
+        }
+    }
+    public String checkETA(String eta){
+        try{
+            if(eta.contains(" has been delayed. Please plan accordingly\n")){
+                return "Delayed";
+            }
+        }catch (Exception e){
+            System.out.println("tried doing the delay , didnt work");
+            Log.e(TAG, "checkETA: has failed. it is: "+eta, e);
+        }
+        eta = eta.substring(0,eta.indexOf(" "));
+        if(eta.equals("")){
+            eta = "1";
+        }
+        return eta;
+    }
+
     public LinkedList<completeStop> dbStops(){
 
         LinkedList<completeStop> favoriteStops = new LinkedList<>();
+        LinkedList<busObject> temp;
+
         SQLiteDatabase db = getWritableDatabase();
         String query = "SELECT * FROM "+TABLE_NAME+" WHERE 1";
 
@@ -114,15 +165,22 @@ public class trackDB extends SQLiteOpenHelper {
         ((Cursor) c).moveToFirst();
         while(!c.isAfterLast()){
             if(c.getString(c.getColumnIndex("vehicle")) != null){
-                String stopID = c.getString(c.getColumnIndex("vehicle"));
-                String stationName = c.getString(c.getColumnIndex("stopid"));
-                stationName = stationName.substring(1);
-                favoriteStops.add(new completeStop(stopID,stationName,null));
+
+
+                String vehicle = c.getString(c.getColumnIndex("vehicle"));
+                String stop_id = c.getString(c.getColumnIndex("stopid"));
+                String busNum = c.getString(c.getColumnIndex("bus"));
+                String direction = c.getString(c.getColumnIndex("direction"));
+                String eta = c.getString(c.getColumnIndex("eta"));
+                String station = c.getString(c.getColumnIndex("stationname"));
+                temp = new LinkedList<>();
+                temp.add(new busObject(busNum,direction,eta,vehicle));
+//    public busObject(String bus, String direction, String ETA, String vehicle) {
+                favoriteStops.add(new completeStop(stop_id,station, temp));
             }
             c.moveToNext();
         }
         db.close();
         return favoriteStops;
     }
-    */
 }

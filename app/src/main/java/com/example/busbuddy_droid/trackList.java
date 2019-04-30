@@ -55,12 +55,13 @@ public class trackList extends AppCompatActivity {
         view_tracked_buses.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                trackDB test = new trackDB(getApplicationContext(),null,null,1);
-                if(test.numRows() == 0){
+                if(trackingDB.numRows() == 0){
                     Toast.makeText(getApplicationContext(),"You have not tracked a Bus yet.",Toast.LENGTH_LONG).show();
                 }
-                Intent changetoTrackActivity = new Intent(getApplicationContext(),viewTracking.class);
-                startActivity(changetoTrackActivity);
+                else{
+                    Intent changetoTrackActivity = new Intent(getApplicationContext(),viewTracking.class);
+                    startActivity(changetoTrackActivity);
+                }
             }
         });
         home = findViewById(R.id.bus_buddy_logo);
@@ -99,14 +100,22 @@ public class trackList extends AppCompatActivity {
             mAdapter.setOnItemClickListener(new trackListAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(int position) {
-                    String vehicle = "";
-                    String stop_id = "";
-                    vehicle = stops.get(0).getBuses().get(position).getVehicle();
-                    stop_id = stops.get(0).getStopID();
-                    Toast toast = Toast.makeText(getApplicationContext(),"You clicked "+vehicle,Toast.LENGTH_SHORT);
-                    toast.show();
-                    trackingDB.addBus(vehicle,stop_id);
+                    String vehicle = stops.get(0).getBuses().get(position).getVehicle();
+                    String stop_id = stops.get(0).getStopID();
+                    String bus = stops.get(0).getBuses().get(position).getBus();
+                    String direction = stops.get(0).getBuses().get(position).getDirection();
+                    String eta = stops.get(0).getBuses().get(position).getETA();
+                    String stationName = stops.get(0).getStopName();
 
+                    if(trackingDB.searchVehicle(vehicle) == true){
+                        trackingDB.updateETA(vehicle,eta);
+                        Toast.makeText(getApplicationContext(),"You updated "+vehicle,Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        trackingDB.addBus(vehicle,stop_id,bus,direction,eta,stationName);
+                        Toast.makeText(getApplicationContext(),"You added to the DB:  "+vehicle,Toast.LENGTH_SHORT).show();
+
+                    }
                 }
             });
 
