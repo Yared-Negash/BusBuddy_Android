@@ -19,13 +19,15 @@ import java.util.LinkedList;
 
 
 public class viewTrackingAdapter extends RecyclerView.Adapter<viewTrackingAdapter.ViewHolder> {
-    private LinkedList<completeStop> buses;
+    private LinkedList<trackingObject> buses;
 
     //mListener contains the Activity
     private OnItemClickListener mListener;
 
     public interface OnItemClickListener{
-        void onItemClick(int position);
+        //void onItemClick(int position);
+
+        void deleteClick(int position);
     }
     public void setOnItemClickListener(OnItemClickListener listener){
         mListener = listener;
@@ -49,14 +51,24 @@ public class viewTrackingAdapter extends RecyclerView.Adapter<viewTrackingAdapte
             busEta = itemView.findViewById(R.id.Bus_track_eta_viewtracked);
             approxArrival = itemView.findViewById(R.id.approx_time_viewtracked);
             deleteButton = itemView.findViewById(R.id.delete_tracking_bus);
-
+            deleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.deleteClick(position);
+                        }
+                    }
+                }
+            });
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(listener != null){
                         int position = getAdapterPosition();
                         if(position != RecyclerView.NO_POSITION){
-                            listener.onItemClick(position);
+                           // listener.onItemClick(position);
                         }
                     }
                 }
@@ -66,7 +78,7 @@ public class viewTrackingAdapter extends RecyclerView.Adapter<viewTrackingAdapte
         }
     }
     //how to get data from mainacitivty to adatper?: pass to constructor of adapter
-    public viewTrackingAdapter(LinkedList<completeStop> passedData) {
+    public viewTrackingAdapter(LinkedList<trackingObject> passedData) {
         buses = passedData;
     }
 
@@ -84,17 +96,16 @@ public class viewTrackingAdapter extends RecyclerView.Adapter<viewTrackingAdapte
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
         //pass values to Views in ViewHolder. Retrieved from mainactivity passing info to this
-        completeStop currentBus = buses.get(i);
+        trackingObject currentBus = buses.get(i);
         viewHolder.stationName.setText(currentBus.getStopName());
-        busObject temp = currentBus.getBuses().get(0);
 
-        viewHolder.busNum.setText(temp.getBus());
-        viewHolder.busDirection.setText(temp.getDirection());
-        viewHolder.busEta.setText(temp.getETA());
-        String eta = temp.getETA();
+        viewHolder.busNum.setText(currentBus.getBus());
+        viewHolder.busDirection.setText(currentBus.getDirection());
+        viewHolder.busEta.setText(currentBus.getETA());
+        String eta = currentBus.getETA();
 
         try{
-            if(eta.contains(" has been delayed. Please plan accordingly\n")){
+            if(eta.contains("Delayed")){
                 viewHolder.busEta.setText("Delayed");
                 viewHolder.approxArrival.setText("");
                 return;
@@ -103,7 +114,13 @@ public class viewTrackingAdapter extends RecyclerView.Adapter<viewTrackingAdapte
             System.out.println("tried doing the delay , didnt work");
         }
 
-        //eta = eta.substring(0,eta.indexOf(" "));
+        if(eta.contains("NOW")){
+            viewHolder.busEta.setText("NOW");
+            viewHolder.approxArrival.setText("Now");
+            return;
+        }
+
+        eta = eta.substring(0,eta.indexOf(" "));
         if(eta.equals("")){
             eta = "1";
         }

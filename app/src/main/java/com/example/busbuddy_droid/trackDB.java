@@ -58,6 +58,10 @@ public class trackDB extends SQLiteOpenHelper {
     //adding row to table
     public void addBus(String vehicle_id, String stop_id, String bus, String direction, String eta,String stationName){
         //(Vehicle 5850)
+        if(searchVehicle(vehicle_id) == true){
+            return;
+        }
+
         int vehicle;
         vehicle_id = vehicle_id.substring(9,vehicle_id.length()-1);
         vehicle = Integer.parseInt(vehicle_id);
@@ -153,10 +157,9 @@ public class trackDB extends SQLiteOpenHelper {
         return eta;
     }
 
-    public LinkedList<completeStop> dbStops(){
+    public LinkedList<trackingObject> dbStops(){
 
-        LinkedList<completeStop> favoriteStops = new LinkedList<>();
-        LinkedList<busObject> temp;
+        LinkedList<trackingObject> viewTracking = new LinkedList<>();
 
         SQLiteDatabase db = getWritableDatabase();
         String query = "SELECT * FROM "+TABLE_NAME+" WHERE 1";
@@ -168,19 +171,19 @@ public class trackDB extends SQLiteOpenHelper {
 
 
                 String vehicle = c.getString(c.getColumnIndex("vehicle"));
-                String stop_id = c.getString(c.getColumnIndex("stopid"));
-                String busNum = c.getString(c.getColumnIndex("bus"));
+                String stopID = c.getString(c.getColumnIndex("stopid"));
+                String bus = c.getString(c.getColumnIndex("bus"));
                 String direction = c.getString(c.getColumnIndex("direction"));
-                String eta = c.getString(c.getColumnIndex("eta"));
-                String station = c.getString(c.getColumnIndex("stationname"));
-                temp = new LinkedList<>();
-                temp.add(new busObject(busNum,direction,eta,vehicle));
-//    public busObject(String bus, String direction, String ETA, String vehicle) {
-                favoriteStops.add(new completeStop(stop_id,station, temp));
+                String ETA = c.getString(c.getColumnIndex("eta"));
+                String stopName = c.getString(c.getColumnIndex("stationname"));
+
+                //String stopID, String stopName, String bus, String direction, String ETA, String vehicle
+
+                viewTracking.add(new trackingObject(stopID,stopName,bus,direction,ETA,vehicle));
             }
             c.moveToNext();
         }
         db.close();
-        return favoriteStops;
+        return viewTracking;
     }
 }

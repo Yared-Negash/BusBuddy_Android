@@ -56,7 +56,7 @@ public class trackList extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(trackingDB.numRows() == 0){
-                    Toast.makeText(getApplicationContext(),"You have not tracked a Bus yet.",Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(),"You have not tracked a Bus yet.",Toast.LENGTH_LONG).show();
                 }
                 else{
                     Intent changetoTrackActivity = new Intent(getApplicationContext(),viewTracking.class);
@@ -109,11 +109,14 @@ public class trackList extends AppCompatActivity {
 
                     if(trackingDB.searchVehicle(vehicle) == true){
                         trackingDB.updateETA(vehicle,eta);
-                        Toast.makeText(getApplicationContext(),"You updated "+vehicle,Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"You are already tracking this bus",Toast.LENGTH_SHORT);
                     }
                     else{
+
                         trackingDB.addBus(vehicle,stop_id,bus,direction,eta,stationName);
-                        Toast.makeText(getApplicationContext(),"You added to the DB:  "+vehicle,Toast.LENGTH_SHORT).show();
+                        Intent goTrack = new Intent(getApplicationContext(),viewTracking.class);
+                        startActivity(goTrack);
+                       // Toast.makeText(getApplicationContext(),"You added to the DB:  "+vehicle,Toast.LENGTH_SHORT).show();
 
                     }
                 }
@@ -127,7 +130,7 @@ public class trackList extends AppCompatActivity {
         minRefresh = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                Toast.makeText(getApplicationContext(),"Updating Bus ETA's",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(),"Updating Bus ETA's",Toast.LENGTH_SHORT).show();
                 new updateBus().execute();
             }
         };
@@ -135,14 +138,14 @@ public class trackList extends AppCompatActivity {
     }
     public void manual_Refresh(){
 
-        Toast.makeText(getApplicationContext(),"Manually updating Bus ETA's",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(),"Manually updating Bus ETA's",Toast.LENGTH_SHORT).show();
         new updateBus().execute();
-        Toast.makeText(getApplicationContext(), "Here is the db \n"+trackingDB.databaseToString(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), "Here is the db \n"+trackingDB.databaseToString(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     protected void onResume() {
-        Toast.makeText(getApplicationContext(),"On Resume Refresh",Toast.LENGTH_SHORT).show();
+       // Toast.makeText(getApplicationContext(),"On Resume Refresh",Toast.LENGTH_SHORT).show();
         super.onResume();
         manual_Refresh();
         refreshPage();

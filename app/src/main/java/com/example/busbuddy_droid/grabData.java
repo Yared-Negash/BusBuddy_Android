@@ -89,7 +89,71 @@ public class grabData {
         return buses;
     }
 
+    public String trackbusETA(String vehicle){
+        Document body = null;
+        try {
+            body = Jsoup.connect("http://mybusnow.njtransit.com/bustime/wireless/html/" +
+                    "eta.jsp?route=---&direction=---&displaydirection=---&stop=---&findstop=on&selectedRtpiFeeds=&id="+stopID).get();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String data = body.toString();
 
+        if(data == ""){
+            return null;
+        }
+        else if(data.contains("No arrival times available.")){
+            return null;
+        }
+        else if(data.contains("No service is scheduled for this stop at this time.")){
+            return null;
+        }
+
+
+        //span element for vehicle number
+        //strong tag for bus Number and eta (check if it has "MIN" inside)
+        LinkedList<String> eta = new LinkedList<String>();
+        LinkedList<String> vehicleList = new LinkedList<String>();
+        LinkedList<busObject> buses = new LinkedList<>();
+
+
+        Elements strong = body.getElementsByTag("strong");
+        Elements span = body.getElementsByTag("span");
+
+        for (Element arrival : strong) {
+            String bold = arrival.text();
+            if(bold.contains("#")){
+            }
+            else if(bold.contains("MIN")){
+                eta.add(bold);
+            }
+            else{
+                eta.add(bold);
+            }
+        }
+        for (Element vehicleNum : span) {
+            String bold = vehicleNum.text();
+            vehicleList.add(bold);
+        }
+        for(int i = 0; i < vehicleList.size(); i++){
+            String temp = vehicleList.get(i);
+
+            temp = temp.substring(9,temp.length()-1);
+            if(temp.equals(vehicle)){
+                if(eta.get(i).contains("DELAYED")){
+                    return "Delayed";
+                }
+                else if(eta.get(i).contains("< 1 MIN")){
+                    return "NOW";
+                }
+                else{
+                    return eta.get(i);
+                }
+            }
+        }
+
+        return null;
+    }
 
 
 }

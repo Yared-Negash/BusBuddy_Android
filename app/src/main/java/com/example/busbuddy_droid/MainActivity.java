@@ -112,10 +112,10 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(int position) {
                     stops.get(position);
-                    Toast toast = Toast.makeText(getApplicationContext(),"You clicked card "+stops.get(position).getStopName(),Toast.LENGTH_SHORT);
-                    toast.show();
+                    //Toast toast = Toast.makeText(getApplicationContext(),"You clicked card "+stops.get(position).getStopName(),Toast.LENGTH_SHORT);
+                    //toast.show();
                     if(stops.get(position).getBuses() == null){
-                        Toast.makeText(getApplicationContext(),"No buses available for "+stops.get(position).getStopName(),Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(getApplicationContext(),"No buses available for "+stops.get(position).getStopName(),Toast.LENGTH_SHORT).show();
                         return;
                     }
                     Intent trackBus = new Intent(getApplicationContext(), com.example.busbuddy_droid.trackList.class);
@@ -133,8 +133,8 @@ public class MainActivity extends AppCompatActivity {
                     mAdapter.notifyItemRemoved(position);
                     favStops = dbHandler.dbStops();
 
-                    Toast toast = Toast.makeText(getApplicationContext(),"You are deleted card "+position,Toast.LENGTH_SHORT);
-                    toast.show();
+                    //Toast toast = Toast.makeText(getApplicationContext(),"You are deleted card "+position,Toast.LENGTH_SHORT);
+                   // toast.show();
                     if(dbHandler.numRows() == 0){
                         Intent addBus = new Intent(getApplicationContext(), com.example.busbuddy_droid.addBus.class);
                         startActivity(addBus);
@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
         minRefresh = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                Toast.makeText(getApplicationContext(),"Updating Bus ETA's",Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(getApplicationContext(),"Updating Bus ETA's",Toast.LENGTH_SHORT).show();
                 new updateBus().execute();
             }
         };
@@ -160,13 +160,13 @@ public class MainActivity extends AppCompatActivity {
     }
     public void manual_Refresh(){
 
-        Toast.makeText(getApplicationContext(),"Manually updating Bus ETA's",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(),"Manually updating Bus ETA's",Toast.LENGTH_SHORT).show();
         new updateBus().execute();
     }
 
     @Override
     protected void onResume() {
-        Toast.makeText(getApplicationContext(),"On Resume Refresh",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(),"On Resume Refresh",Toast.LENGTH_SHORT).show();
         super.onResume();
         manual_Refresh();
         refreshPage();
