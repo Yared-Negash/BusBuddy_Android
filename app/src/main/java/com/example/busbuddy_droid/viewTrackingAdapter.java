@@ -99,7 +99,7 @@ public class viewTrackingAdapter extends RecyclerView.Adapter<viewTrackingAdapte
         trackingObject currentBus = buses.get(i);
         viewHolder.stationName.setText(currentBus.getStopName());
 
-        viewHolder.busNum.setText(currentBus.getBus());
+        viewHolder.busNum.setText(currentBus.getBus()+"\n Vehicle: "+currentBus.getVehicle());
         viewHolder.busDirection.setText(currentBus.getDirection());
         viewHolder.busEta.setText(currentBus.getETA());
         String eta = currentBus.getETA();
@@ -120,12 +120,8 @@ public class viewTrackingAdapter extends RecyclerView.Adapter<viewTrackingAdapte
             return;
         }
 
-        eta = eta.substring(0,eta.indexOf(" "));
-        if(eta.equals("")){
-            eta = "1";
-        }
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MINUTE, Integer.parseInt(eta));
+        calendar.add(Calendar.MINUTE, Integer.parseInt(eta.substring(0,eta.indexOf(" "))));
         Date date=calendar.getTime();
         DateFormat dateFormat = new SimpleDateFormat("HH:mm");
         String approxETA=dateFormat.format(date);

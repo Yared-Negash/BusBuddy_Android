@@ -68,15 +68,24 @@ public class viewTracking extends AppCompatActivity {
                     //when the grabdata cant find the eta, we can assume the bus has already arrived, or there was an error. At this poitn we will remove from teh db;
                     stops.remove(i);
                     trackDB.deleteStop(Integer.parseInt(vehicle));
-                    return null;
                 }
-                stops.get(i).setETA(eta);
+                else{
+                    stops.get(i).setETA(eta);
+                    trackDB.update_track_ETA(vehicle,eta);
+                }
+
             }
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
+
+            if(stops.size() == 0){
+                Intent goHome = new Intent(getApplicationContext(),MainActivity.class);
+                goHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(goHome);
+            }
             super.onPostExecute(aVoid);
             myRecyclerView = findViewById(R.id.recylerview_view_tracking_buses);
             myRecyclerView.setHasFixedSize(true);
@@ -84,6 +93,7 @@ public class viewTracking extends AppCompatActivity {
             mAdapter = new viewTrackingAdapter(stops);
             myRecyclerView.setLayoutManager(mLayoutManager);
             myRecyclerView.setAdapter(mAdapter);
+            temp.setText(trackDB.databaseToString());
             System.out.println("");
 
             mAdapter.setOnItemClickListener(new viewTrackingAdapter.OnItemClickListener() {

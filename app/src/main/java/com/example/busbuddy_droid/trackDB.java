@@ -141,6 +141,19 @@ public class trackDB extends SQLiteOpenHelper {
             db.close();
         }
     }
+    public void update_track_ETA(String vehicle, String eta){
+            SQLiteDatabase db = getWritableDatabase();
+            ContentValues values = new ContentValues();
+            if(eta.equals("NOW")){
+                values.put(COLUMN_ETA,eta);
+            }
+            else{
+                values.put(COLUMN_ETA,checkETA(eta));
+            }
+            db.update(TABLE_NAME,values,COLUMN_VEHICLE+"="+vehicle,null);
+            db.close();
+
+    }
     public String checkETA(String eta){
         try{
             if(eta.contains(" has been delayed. Please plan accordingly\n")){
