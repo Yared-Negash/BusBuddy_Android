@@ -53,11 +53,10 @@ public class viewTracking extends AppCompatActivity {
     }
 
     public class updateTrack extends AsyncTask<Void,Void,Void> {
-        LinkedList<trackingObject> stops = new LinkedList<>();
+        LinkedList<trackingObject> stops = trackDB.dbStops();
 
         @Override
         protected Void doInBackground(Void... voids) {
-            stops = trackDB.dbStops();
             for(int i = 0; i < stops.size(); i++) {
                 String stopID = stops.get(i).getStopID();
                 String vehicle = stops.get(i).getVehicle();
@@ -66,8 +65,12 @@ public class viewTracking extends AppCompatActivity {
                 String eta = test.trackbusETA(vehicle);
                 if(eta == null){
                     //when the grabdata cant find the eta, we can assume the bus has already arrived, or there was an error. At this poitn we will remove from teh db;
+                    //Toast.makeText(getApplicationContext(),"Bus :"+stops.get(i).getBus()+"("+vehicle+") departed. Deleting from trackDB",Toast.LENGTH_SHORT).show();
                     stops.remove(i);
                     trackDB.deleteStop(Integer.parseInt(vehicle));
+                    if(stops.size() == 0){
+                        return null;
+                    }
                 }
                 else{
                     stops.get(i).setETA(eta);
@@ -101,6 +104,7 @@ public class viewTracking extends AppCompatActivity {
                 @Override
                 public void deleteClick(int position) {
                     trackDB.deleteStop(Integer.parseInt(stops.get(position).getVehicle()));
+                    Toast.makeText(getApplicationContext(),"Bus :"+stops.get(position).getBus()+"("+stops.get(position).getVehicle()+") has been deleted from trackDB",Toast.LENGTH_SHORT).show();
                     stops.remove(position);
                     mAdapter.notifyItemRemoved(position);
                     if(trackDB.numRows() == 0){

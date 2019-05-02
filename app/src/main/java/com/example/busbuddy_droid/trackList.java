@@ -108,15 +108,15 @@ public class trackList extends AppCompatActivity {
                     String stationName = stops.get(0).getStopName();
 
                     if(trackingDB.searchVehicle(vehicle) == true){
-                        trackingDB.updateETA(vehicle,eta);
-                        Toast.makeText(getApplicationContext(),"You are already tracking this bus",Toast.LENGTH_SHORT);
+                        //trackingDB.updateETA(vehicle,eta);
+                        Toast.makeText(getApplicationContext(),"You are already tracking this bus at another stop!",Toast.LENGTH_SHORT).show();
                     }
                     else{
 
                         trackingDB.addBus(vehicle,stop_id,bus,direction,eta,stationName);
                         Intent goTrack = new Intent(getApplicationContext(),viewTracking.class);
                         startActivity(goTrack);
-                       // Toast.makeText(getApplicationContext(),"You added to the DB:  "+vehicle,Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"You added to the DB:  "+vehicle,Toast.LENGTH_SHORT).show();
 
                     }
                 }

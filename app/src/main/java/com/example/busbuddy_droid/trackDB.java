@@ -87,7 +87,7 @@ public class trackDB extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getReadableDatabase();
         long count = DatabaseUtils.queryNumEntries(db, TABLE_NAME);
-        db.close();
+        //db.close();
         return count;
     }
 
@@ -110,7 +110,7 @@ public class trackDB extends SQLiteOpenHelper {
             }
             c.moveToNext();
         }
-        db.close();
+        //db.close();
         return dbString;
     }
     public boolean searchVehicle(String vehicle){
@@ -127,7 +127,7 @@ public class trackDB extends SQLiteOpenHelper {
             }
             c.moveToNext();
         }
-        db.close();
+        //db.close();
         return false;
     }
 
@@ -138,7 +138,7 @@ public class trackDB extends SQLiteOpenHelper {
             ContentValues values = new ContentValues();
             values.put(COLUMN_ETA,checkETA(eta));
             db.update(TABLE_NAME,values,COLUMN_VEHICLE+"="+vehicle,null);
-            db.close();
+           //db.close();
         }
     }
     public void update_track_ETA(String vehicle, String eta){
@@ -151,7 +151,7 @@ public class trackDB extends SQLiteOpenHelper {
                 values.put(COLUMN_ETA,checkETA(eta));
             }
             db.update(TABLE_NAME,values,COLUMN_VEHICLE+"="+vehicle,null);
-            db.close();
+            //db.close();
 
     }
     public String checkETA(String eta){
@@ -196,7 +196,7 @@ public class trackDB extends SQLiteOpenHelper {
             }
             c.moveToNext();
         }
-        db.close();
+        //db.close();
         return viewTracking;
     }
 }

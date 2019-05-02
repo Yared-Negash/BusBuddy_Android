@@ -121,7 +121,13 @@ public class viewTrackingAdapter extends RecyclerView.Adapter<viewTrackingAdapte
         }
 
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MINUTE, Integer.parseInt(eta.substring(0,eta.indexOf(" "))));
+        try{
+            calendar.add(Calendar.MINUTE, Integer.parseInt(eta.substring(0,eta.indexOf(" "))));
+        }
+        catch (Exception e){
+            System.out.println("eta format has changed, now passing raw eta");
+            calendar.add(Calendar.MINUTE, Integer.parseInt(eta));
+        }
         Date date=calendar.getTime();
         DateFormat dateFormat = new SimpleDateFormat("HH:mm");
         String approxETA=dateFormat.format(date);
