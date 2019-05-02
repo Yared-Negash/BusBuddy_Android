@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.RingtoneManager;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
@@ -38,6 +39,7 @@ public class trackingService extends Service {
             stopSelf();
         }
         String eta_text = "";
+        Boolean checkETASound = false;
         Intent viewTrackList = new Intent(getApplicationContext(),viewTracking.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),
                 0,viewTrackList,0);
@@ -45,19 +47,48 @@ public class trackingService extends Service {
             String bus = stops.get(i).getBus();
             String stopName = stops.get(i).getStopName();
             String eta = stops.get(i).getETA();
-
+            String temp = eta;
+            if(eta.equals("NOW")){
+                checkETASound = true;
+            }
+            else if(eta.contains("MIN")){
+                temp = temp.substring(0,temp.indexOf(" "));
+                if(Integer.parseInt(temp) <= 5){
+                    checkETASound = true;
+                }
+            }
+            else{
+                if(Integer.parseInt(temp) <= 5){
+                    checkETASound = true;
+                }
+            }
             eta_text += bus + " at "+ stopName + " is arriving in "+ eta+ '\n';
         }
 
-        Notification notification = new NotificationCompat.Builder(getApplicationContext(),CHANNEL_ID)
-                .setContentTitle("Tracked Buses")
-                .setStyle(
-                        new NotificationCompat.BigTextStyle()
-                        .bigText(eta_text)
-                )
-                .setSmallIcon(R.drawable.ic_directions_bus_tracking_service_icon)
-                .setContentIntent(pendingIntent)
-                .build();
+        Notification notification;
+        if(checkETASound == true){
+            notification = new NotificationCompat.Builder(getApplicationContext(),CHANNEL_ID)
+                    .setContentTitle("Tracked Buses")
+                    .setStyle(
+                            new NotificationCompat.BigTextStyle()
+                                    .bigText(eta_text)
+                    )
+                    .setSound(RingtoneManager.getActualDefaultRingtoneUri(getApplicationContext(),RingtoneManager.TYPE_NOTIFICATION))
+                    .setSmallIcon(R.drawable.ic_directions_bus_tracking_service_icon)
+                    .setContentIntent(pendingIntent)
+                    .build();
+        }
+        else{
+            notification = new NotificationCompat.Builder(getApplicationContext(),CHANNEL_ID)
+                    .setContentTitle("Tracked Buses")
+                    .setStyle(
+                            new NotificationCompat.BigTextStyle()
+                                    .bigText(eta_text)
+                    )
+                    .setSmallIcon(R.drawable.ic_directions_bus_tracking_service_icon)
+                    .setContentIntent(pendingIntent)
+                    .build();
+        }
         startForeground(1,notification);
         return START_NOT_STICKY;
     }
