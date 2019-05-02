@@ -159,6 +159,10 @@ public class trackDB extends SQLiteOpenHelper {
             if(eta.contains(" has been delayed. Please plan accordingly\n")){
                 return "Delayed";
             }
+
+            if(eta.contains("Delayed")){
+                return "Delayed";
+            }
         }catch (Exception e){
             System.out.println("tried doing the delay , didnt work");
             Log.e(TAG, "checkETA: has failed. it is: "+eta, e);
