@@ -24,6 +24,8 @@ public class viewTracking extends AppCompatActivity {
     private RecyclerView myRecyclerView;
     private viewTrackingAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    LinkedList<trackingObject> stops1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +117,7 @@ public class viewTracking extends AppCompatActivity {
 
                 }
             });
+            stops1 = this.stops;
 
         }
     }
@@ -139,7 +142,8 @@ public class viewTracking extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        Toast.makeText(getApplicationContext(),"On Resume Refresh",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(),"On Resume Refresh",Toast.LENGTH_SHORT).show();
+        stopTrackService();
         super.onResume();
         manual_Refresh();
         refreshPage();
@@ -149,6 +153,21 @@ public class viewTracking extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         unregisterReceiver(minRefresh);
+        if(stops1.size() != 0){
+            startTrackService();
+        }
     }
+    public void startTrackService(){
+        String database = trackDB.databaseToString();
+        Intent serviceIntent = new Intent(getApplicationContext(),trackingService.class);
+        serviceIntent.putExtra("dbString",database);
+        startService(serviceIntent);
+    }
+
+    public void stopTrackService(){
+        Intent serviceIntent = new Intent(getApplicationContext(),trackingService.class);
+        stopService(serviceIntent);
+    }
+
 
 }
