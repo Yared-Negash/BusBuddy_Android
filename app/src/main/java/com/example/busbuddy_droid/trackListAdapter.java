@@ -115,6 +115,9 @@ public class trackListAdapter extends RecyclerView.Adapter<trackListAdapter.View
     @Override
     public int getItemCount() {
         //retuns number of bustops
+        if(buses.get(0).getBuses() == null){
+            return 0;
+        }
         return buses.get(0).getBuses().size();
     }
 }

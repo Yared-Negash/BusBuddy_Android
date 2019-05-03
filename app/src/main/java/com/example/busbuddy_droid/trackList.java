@@ -88,6 +88,11 @@ public class trackList extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            if(stops.get(0).getBuses() == null){
+                Intent goHome = new Intent(getApplicationContext(),MainActivity.class);
+                goHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(goHome);
+            }
             super.onPostExecute(aVoid);
             myRecyclerView = findViewById(R.id.tracklist_recyclerView);
             myRecyclerView.setHasFixedSize(true);
