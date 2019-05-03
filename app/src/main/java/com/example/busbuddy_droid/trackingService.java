@@ -8,15 +8,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.widget.Toast;
 
+import java.net.URI;
 import java.util.LinkedList;
 
 import static com.example.busbuddy_droid.App.CHANNEL_ID;
+import static com.example.busbuddy_droid.App.CHANNEL_ID_NO_SOUND;
 
 
 public class trackingService extends Service {
@@ -50,36 +53,45 @@ public class trackingService extends Service {
             String temp = eta;
             if(eta.equals("NOW")){
                 checkETASound = true;
+                eta_text += bus + " at "+ stopName + " is arriving "+ eta+ "!\n";
             }
             else if(eta.contains("MIN")){
                 temp = temp.substring(0,temp.indexOf(" "));
-                if(Integer.parseInt(temp) <= 5){
+                if(Integer.parseInt(temp) <= 5 && (Integer.parseInt(temp) % 2) != 0 ){
+                    //ONLY RINGS  WHEN ETA IS 5,3,1 MIN AWAY. PUT IN PLACE SO IT DOESNT RING EVERY MIN.
                     checkETASound = true;
                 }
+                eta_text += bus + " at "+ stopName + " is arriving in "+ temp + " MIN\n";
+            }
+            else if(eta.equals("Delayed")){
+                checkETASound = true;
+                eta_text += bus + " at "+ stopName + " has been DELAYED. Please plan accordingly."+ '\n';
+            }
+            else if(Integer.parseInt(temp) <= 5 && (Integer.parseInt(temp) % 2) != 0 ){
+                checkETASound = true;
+                eta_text += bus + " at "+ stopName + " is arriving in "+ eta+ "MIN.\n";
             }
             else{
-                if(Integer.parseInt(temp) <= 5){
-                    checkETASound = true;
-                }
+                eta_text += bus + " at "+ stopName + " is arriving in "+ eta+ "MIN.\n";
             }
-            eta_text += bus + " at "+ stopName + " is arriving in "+ eta+ '\n';
         }
 
         Notification notification;
         if(checkETASound == true){
+            Uri soundUri = Uri.parse("android.resource://" + getApplicationContext().getPackageName() + "/" + R.raw.bus_now_sound);
             notification = new NotificationCompat.Builder(getApplicationContext(),CHANNEL_ID)
                     .setContentTitle("Tracked Buses")
                     .setStyle(
                             new NotificationCompat.BigTextStyle()
                                     .bigText(eta_text)
                     )
-                    .setSound(RingtoneManager.getActualDefaultRingtoneUri(getApplicationContext(),RingtoneManager.TYPE_NOTIFICATION))
+                    .setSound(soundUri)
                     .setSmallIcon(R.drawable.ic_directions_bus_tracking_service_icon)
                     .setContentIntent(pendingIntent)
                     .build();
         }
         else{
-            notification = new NotificationCompat.Builder(getApplicationContext(),CHANNEL_ID)
+            notification = new NotificationCompat.Builder(getApplicationContext(),CHANNEL_ID_NO_SOUND)
                     .setContentTitle("Tracked Buses")
                     .setStyle(
                             new NotificationCompat.BigTextStyle()
