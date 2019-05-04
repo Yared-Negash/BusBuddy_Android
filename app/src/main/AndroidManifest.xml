@@ -8,16 +8,13 @@
     <application
         android:name=".App"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:icon="@mipmap/busbuddy_app_logo_round"
+        android:label="@string/app_Name"
         android:roundIcon="@drawable/ic_bus_buddy_app_icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar"
         android:usesCleartextTraffic="true">
         <activity android:name=".viewTracking"></activity>
-        <activity
-            android:name=".bottom_nav"
-            android:label="@string/title_activity_bottom_nav" />
         <activity android:name=".stopList" />
         <activity android:name=".addBus" />
         <activity android:name=".getDirection" />
