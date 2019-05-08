@@ -39,7 +39,7 @@ public class stopList extends AppCompatActivity {
         String regex = "eta[.][^<]+";
         busLL = obj.findString(regex,response);
         for(int i = 0; i< busLL.size();i++){
-            final String street = busLL.get(i).substring( busLL.get(i).indexOf(">")+1);;
+            final String street = Jsoup.parse(busLL.get(i).substring( busLL.get(i).indexOf(">")+1)).text();
             final int stopID = Integer.parseInt(busLL.get(i).substring(busLL.get(i).indexOf("id=")+3,busLL.get(i).indexOf("id=")+8));
             final String url = busLL.get(i).substring(0,busLL.get(i).indexOf("\">"));
 

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -35,7 +36,8 @@ public class busCardAdapter extends RecyclerView.Adapter<busCardAdapter.ViewHold
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        public TextView stopName, stopID,deleteStop,busETA;
+        public TextView stopName, stopID,busETA;
+        public ImageView deleteStop;
         public LinearLayout busLayout;
         busListDBHelper dbHandler;
 

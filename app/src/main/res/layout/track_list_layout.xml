@@ -17,9 +17,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/appbar"
+            android:layout_marginLeft="5dp"
             android:text="DisneyLand"
-            android:textColor="@color/card_Text_color"
-            android:background="@color/cardBackgroundColor"
+            android:textColor="@android:color/white"
+            android:background="@color/backgroundColor"
             android:textSize="30sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appbar" />

@@ -108,7 +108,10 @@ public class busListDBHelper extends SQLiteOpenHelper {
             if(c.getString(c.getColumnIndex("id")) != null){
                 String stopID = c.getString(c.getColumnIndex("id"));
                 String stationName = c.getString(c.getColumnIndex("street"));
-                stationName = stationName.substring(1);
+                if(stationName.startsWith(" ")){
+                    stationName = stationName.substring(1);
+                }
+                //stationName = stationName.substring(1);
                 favoriteStops.add(new completeStop(stopID,stationName,null));
             }
             c.moveToNext();

@@ -4,22 +4,33 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="4dp"
-    android:layout_margin="8dp">
+    android:layout_margin="8dp"
+    android:background="@color/cardview_dark_background">
 
     <RelativeLayout
         android:id="@+id/cardRelativeLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFFFFF">
+        android:background="@color/cardview_dark_background">
 
         <TextView
             android:id="@+id/Bus_Stop_Location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:layout_marginLeft="8dp"
-            android:text="DisneyLand"
-            android:textColor="@android:color/black"
+            android:layout_toLeftOf="@+id/deleteStop_button"
+            android:text="TERMINAL A - HOV ROAD - STOPS 2 AND 3"
+            android:textColor="@android:color/white"
             android:textSize="30sp" />
+
+        <ImageView
+            android:id="@+id/deleteStop_button"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/Bus_ETA_Layout"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/delete_bus_card" />
 
         <TextView
             android:id="@+id/Bus_Stop_ID"
@@ -29,7 +40,7 @@
             android:layout_alignLeft="@id/Bus_Stop_Location"
             android:layout_marginTop="8dp"
             android:text="18809"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/white"
             android:textSize="20sp" />
 
         <LinearLayout
@@ -47,28 +58,8 @@
             android:layout_height="wrap_content"
             android:text="Bus 73(Vehicle 8850) To MAIN STREET + UNIVERSITY AVE is arriving in 10 Min\n\nBus 73(Vehicle 8850) To MAIN STREET + UNIVERSITY AVE is arriving in 10 Min\n\n"
 
-            android:textColor="@android:color/black"/>
+            android:textColor="@android:color/white"/>
         </LinearLayout>
-
-        <View
-            android:id="@+id/Card_Divider"
-            android:layout_width="match_parent"
-            android:layout_height="4dp"
-            android:layout_below="@id/Bus_ETA_Layout"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="8dp"
-            android:background="@android:color/darker_gray" />
-
-        <TextView
-            android:id="@+id/deleteStop_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/Card_Divider"
-            android:layout_alignRight="@id/Card_Divider"
-            android:text="Delete Stop"
-            android:textColor="@android:color/holo_red_dark"
-            android:textSize="20sp" />
 
 
     </RelativeLayout>

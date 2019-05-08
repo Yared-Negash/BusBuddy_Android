@@ -1,5 +1,6 @@
 package com.example.busbuddy_droid;
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -89,9 +90,10 @@ public class trackListAdapter extends RecyclerView.Adapter<trackListAdapter.View
         String eta = temp.getETA();
 
         try{
-            if(eta.contains(" has been delayed. Please plan accordingly\n")){
+            if(eta.contains(" has been delayed. Please plan accordingly")){
                 viewHolder.busEta.setText("Delayed");
-                viewHolder.approxArrival.setText("");
+                viewHolder.busEta.setTextColor(Color.RED);
+                viewHolder.approxArrival.setText("Delayed");
                 return;
             }
         }catch (Exception e){
@@ -101,6 +103,9 @@ public class trackListAdapter extends RecyclerView.Adapter<trackListAdapter.View
         eta = eta.substring(0,eta.indexOf(" "));
         if(eta.equals("")){
             eta = "1";
+        }
+        if(Integer.parseInt(eta) > 5){
+            viewHolder.busEta.setTextColor(Color.WHITE);
         }
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MINUTE, Integer.parseInt(eta));
