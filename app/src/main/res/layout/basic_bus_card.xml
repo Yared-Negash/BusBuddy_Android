@@ -56,8 +56,12 @@
             android:id="@+id/etaTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Bus 73(Vehicle 8850) To MAIN STREET + UNIVERSITY AVE is arriving in 10 Min\n\nBus 73(Vehicle 8850) To MAIN STREET + UNIVERSITY AVE is arriving in 10 Min\n\n"
-
+            android:text="
+Bus 735 To 623 ELIZABETH NEWARK... is arriving in 10 Min\n\n
+Bus 735 To 735 MAIN STREET ... is arriving in 10 Min\n\n
+Bus 735 To 735 MAIN STREET ... is arriving in 10 Min\n\n
+Bus 735 To 735 MAIN STREET ... is arriving in 10 Min\n\n
+Bus 735 To 735 MAIN STREET ... is arriving in 10 Min\n\n"
             android:textColor="@android:color/white"/>
         </LinearLayout>
 

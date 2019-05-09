@@ -103,7 +103,11 @@ public class busCardAdapter extends RecyclerView.Adapter<busCardAdapter.ViewHold
         else{
             for(int j = 0; j < buses.get(i).getBuses().size(); j++){
                 busObject temp = buses.get(i).getBuses().get(j);
-                output += (j+1)+") Bus "+ temp.getBus()+" "+temp.getDirection()+" is arriving in "+temp.getETA()+"\n\n";
+                String Direction = temp.getDirection();
+                if(Direction.length() > 23){
+                    Direction = Direction.substring(0,23)+"...";
+                }
+                output += "Bus "+ temp.getBus()+" "+Direction+" is arriving in "+temp.getETA()+"\n\n";
             }
         }
         viewHolder.stopName.setText(currentBus.getStopName());
