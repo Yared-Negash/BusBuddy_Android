@@ -48,21 +48,161 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/Bus_Stop_ID"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginVertical="10dp"
+            android:layout_marginHorizontal="8dp"
             android:orientation="vertical">
-        <TextView
-            android:id="@+id/etaTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="
-Bus 735 To 623 ELIZABETH NEWARK... is arriving in 10 Min\n\n
-Bus 735 To 735 MAIN STREET ... is arriving in 10 Min\n\n
-Bus 735 To 735 MAIN STREET ... is arriving in 10 Min\n\n
-Bus 735 To 735 MAIN STREET ... is arriving in 10 Min\n\n
-Bus 735 To 735 MAIN STREET ... is arriving in 10 Min\n\n"
-            android:textColor="@android:color/white"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:layout_margin="2dp">
+                <TextView
+                    android:id="@+id/busRoute1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@android:color/white"
+                    android:layout_weight="1"/>
+                <TextView
+                    android:id="@+id/Bus_Direction1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@android:color/white"
+                    android:layout_weight="2"/>
+                <TextView
+                    android:id="@+id/busETA1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@android:color/white"
+                    android:textAlignment="center"
+
+                    android:layout_weight="1"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1">
+                <TextView
+                    android:id="@+id/busRoute2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@android:color/white"
+                    android:layout_weight="1"/>
+                <TextView
+                    android:id="@+id/Bus_Direction2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@android:color/white"
+                    android:layout_weight="2"/>
+                <TextView
+                    android:id="@+id/busETA2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@android:color/white"
+                    android:textAlignment="center"
+
+                    android:layout_weight="1"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1">
+                <TextView
+                    android:id="@+id/busRoute3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@android:color/white"
+                    android:layout_weight="1"/>
+                <TextView
+                    android:id="@+id/Bus_Direction3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@android:color/white"
+                    android:layout_weight="2"/>
+                <TextView
+                    android:id="@+id/busETA3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@android:color/white"
+                    android:textAlignment="center"
+
+                    android:layout_weight="1"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1">
+                <TextView
+                    android:id="@+id/busRoute4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@android:color/white"
+                    android:layout_weight="1"/>
+                <TextView
+                    android:id="@+id/Bus_Direction4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@android:color/white"
+                    android:layout_weight="2"/>
+                <TextView
+                    android:id="@+id/busETA4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@android:color/white"
+                    android:textAlignment="center"
+
+                    android:layout_weight="1"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1">
+                <TextView
+                    android:id="@+id/busRoute5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@android:color/white"
+                    android:layout_weight="1"/>
+                <TextView
+                    android:id="@+id/Bus_Direction5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@android:color/white"
+
+                    android:layout_weight="2"/>
+                <TextView
+                    android:id="@+id/busETA5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@android:color/white"
+                    android:textAlignment="center"
+                    android:layout_weight="1"/>
+
+            </LinearLayout>
+
         </LinearLayout>
 
 

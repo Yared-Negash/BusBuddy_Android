@@ -2,6 +2,7 @@ package com.example.busbuddy_droid;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ public class busCardAdapter extends RecyclerView.Adapter<busCardAdapter.ViewHold
 
     //mListener contains the Activity
     private OnItemClickListener mListener;
+    private Context huh;
 
     public interface OnItemClickListener{
         void onItemClick(int position);
@@ -49,7 +51,7 @@ public class busCardAdapter extends RecyclerView.Adapter<busCardAdapter.ViewHold
             stopName = itemView.findViewById(R.id.Bus_Stop_Location);
             stopID = itemView.findViewById(R.id.Bus_Stop_ID);
             busLayout = itemView.findViewById(R.id.Bus_ETA_Layout);
-            busETA = itemView.findViewById(R.id.etaTextView);
+           // busETA = itemView.findViewById(R.id.etaTextView);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -79,8 +81,9 @@ public class busCardAdapter extends RecyclerView.Adapter<busCardAdapter.ViewHold
         }
     }
     //how to get data from mainacitivty to adatper?: pass to constructor of adapter
-    public busCardAdapter(LinkedList<completeStop> passedData) {
+    public busCardAdapter(LinkedList<completeStop> passedData, Context context) {
         buses = passedData;
+        huh = context;
     }
 
     @NonNull
@@ -98,21 +101,50 @@ public class busCardAdapter extends RecyclerView.Adapter<busCardAdapter.ViewHold
         completeStop currentBus = buses.get(i);
         String output = "";
         if (currentBus.getBuses() == null) {
-            output = "No service is scheduled for this stop at this time.\n";
+            output = "\nNo service is scheduled for this stop at this time.\n";
         }
         else{
-            for(int j = 0; j < buses.get(i).getBuses().size(); j++){
+            int size = 5;
+            if(buses.get(i).getBuses().size() < 5){
+                size = buses.get(i).getBuses().size();
+            }
+            for(int j = 0; j < size; j++){
                 busObject temp = buses.get(i).getBuses().get(j);
                 String Direction = temp.getDirection();
                 if(Direction.length() > 23){
                     Direction = Direction.substring(0,23)+"...";
                 }
-                output += "Bus "+ temp.getBus()+" "+Direction+" is arriving in "+temp.getETA()+"\n\n";
+
+                View LLbus = viewHolder.busLayout.getChildAt(j);
+                Package.getPackage("com.example.busbuddy_droid)");
+
+
+                int resourceRoute = huh.getResources().getIdentifier("busRoute"+(j+1),"id",huh.getPackageName());
+                int resourceDirection = huh.getResources().getIdentifier("Bus_Direction"+(j+1),"id",huh.getPackageName());
+                int resourceETA = huh.getResources().getIdentifier("busETA"+(j+1),"id",huh.getPackageName());
+
+
+                String bus = temp.getBus();
+                String DirectionString = Direction;
+                String ETA = temp.getETA();
+
+                TextView tempView = LLbus.findViewById(resourceRoute);
+                tempView.setText(bus);
+
+
+                tempView = LLbus.findViewById(resourceDirection);
+                tempView.setText(DirectionString);
+
+
+                tempView = LLbus.findViewById(resourceETA);
+                tempView.setText(ETA);
+
+                //output += "Bus "+ temp.getBus()+" "+Direction+" is arriving in "+temp.getETA()+"\n\n";
             }
         }
         viewHolder.stopName.setText(currentBus.getStopName());
-        viewHolder.stopID.setText(currentBus.getStopID());
-        viewHolder.busETA.setText(output);
+        viewHolder.stopID.setText(currentBus.getStopID() + output);
+        //viewHolder.busETA.setText(output);
         viewHolder.deleteStop.setTag(currentBus.getStopID());
 
     }

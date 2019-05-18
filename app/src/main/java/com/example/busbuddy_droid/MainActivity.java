@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
             myRecyclerView = findViewById(R.id.recyclerView);
             myRecyclerView.setHasFixedSize(true);
             mLayoutManager = new LinearLayoutManager(getApplicationContext());
-            mAdapter = new busCardAdapter(stops);
+            mAdapter = new busCardAdapter(stops,getApplicationContext());
             myRecyclerView.setLayoutManager(mLayoutManager);
             myRecyclerView.setAdapter(mAdapter);
 
