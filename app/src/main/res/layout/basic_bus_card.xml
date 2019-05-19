@@ -22,7 +22,7 @@
             android:layout_toLeftOf="@+id/deleteStop_button"
             android:text="TERMINAL A - HOV ROAD - STOPS 2 AND 3"
             android:textColor="@android:color/white"
-            android:textSize="30sp" />
+            android:textSize="20sp" />
 
         <ImageView
             android:id="@+id/deleteStop_button"
@@ -41,7 +41,7 @@
             android:layout_marginTop="8dp"
             android:text="18809"
             android:textColor="@android:color/white"
-            android:textSize="20sp" />
+            android:textSize="15sp" />
 
         <LinearLayout
             android:id="@+id/Bus_ETA_Layout"
