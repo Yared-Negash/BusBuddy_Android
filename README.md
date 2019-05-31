@@ -1,2 +1,2 @@
 # BusBuddy
-BusBuddy is a native Android Application that allows users to save bus stops and track incoming buses in real time. 
+BusBuddy analyzes New Jersey Transit Bus Data for over 250+ routes, allowing users to favorite stops and track buses in real time. 
