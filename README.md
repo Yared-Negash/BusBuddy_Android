@@ -10,5 +10,5 @@ BusBuddy analyzes New Jersey Transit Bus Data for over 250+ routes, allowing use
 
 2. **Home Screen:** Displays all saved stops in the SQLite Database. Each record in database will have its own respective card on the homescreen, each containing up to five incoming buses (each entry will display the bus route , direction, and estimated time of arrival For Example: 21 - Newark Penn Station - 10 Min). The ability to add another bus stop is also possible via the Floating Action Button. 
 
-3. **Track Buses:**
+3. **Track Buses:** To track a bus, click on any of the cards on the home screen. The follwing activity will display all incoming buses for that respective bus stop. Clicking any of the buses will add it to a seperate table in the SQLite Database. Clicking the bus on the left side of the header will display all active tracked buses. The app (regardless if the app is on screen or off) will refresh every minuite and update the ETA of each buses in the database. Will sound a customized tone when the bus is 5, 3, 1 minutes away.  
 
