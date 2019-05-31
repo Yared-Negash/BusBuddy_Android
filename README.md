@@ -6,9 +6,9 @@ BusBuddy analyzes New Jersey Transit Bus Data for over 250+ routes, allowing use
     * Enter a Bus Route: Must be an existing Bus line on the NJ Transit Network. Automatically checks if the user's input is currently operating bus before advancing to the next step. 
     * Choose a Direction: Select one of two directions in which the respective bus route travels to. 
     * Select Stop: User will be presented with all the active stops the Bus will pass through. 
-    * After selcecting a stop, the App will store the Bus Stop's street name and ID number into an SQLLite Database stored locally on the device. 
+    * After selcecting a stop, the App will store the Bus Stop's street name and ID number into an SQLite Database stored locally on the device. 
 
-2. **Home Screen:** Displays all saved stops in the SQLLite Database. Refreshes every minuite to retreive data. Other features include: 
+2. **Home Screen:** Displays all saved stops in the SQLite Database. Refreshes every minuite to retreive data. Other features include: 
 
    *
 
