@@ -1,5 +1,5 @@
 # BusBuddy
-BusBuddy analyzes New Jersey Transit Bus Data for over 250+ routes, allowing users to favorite stops and track buses in real time. 
+BusBuddy is a native Android Application that analyzes New Jersey Transit Bus Data for over 250+ routes, allowing users to favorite stops and track buses in real time. 
 
 1. **Favoriting Bus Stops:** Upon Installtion, the user is prompted to search for a New Jersey Transit Bus Stop. The following steps are required for sending the proper GET request to the NJ Transit Website. (NOTE: All data is dynamically retrieved from the NJ Transit Offical Website. **No routes, stops, or schedules are hardcoded into the application. This is done in the event NJ transit adds or deletes a route on their network**)
 
