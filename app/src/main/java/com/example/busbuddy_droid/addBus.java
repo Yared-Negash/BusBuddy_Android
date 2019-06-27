@@ -1,6 +1,5 @@
 package com.example.busbuddy_droid;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -17,32 +16,31 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.LinkedList;
 
+//this class is responsible for sending the getRequest with the given bus
+
 public class addBus extends AppCompatActivity {
     EditText busNum;
     TextView busQuestion;
     Button submitBus;
-    TextView testGetReq;
-    public static String sendText = "com.example.busbuddy_droid.EXTRA_TEXT";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.input_bus);
 
+        //UI elements for the Activity
         busQuestion = (TextView) findViewById(R.id.busQuestion);
         busNum = (EditText) findViewById(R.id.inputBus);
         submitBus = (Button) findViewById(R.id.busButton);
-        //testGetReq = (TextView) findViewById(R.id.textView2);
         submitBus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String busNumber = busNum.getText().toString();
 
-                if(busNumber.isEmpty()){
+                if (busNumber.isEmpty()) {
                     Toast toast = Toast.makeText(getApplicationContext(), "Did You Enter A Bus Yet?", Toast.LENGTH_LONG);
                     toast.show();
-                }
-                else {
+                } else {
                     new netBus().execute();
 
                     System.out.println();
@@ -51,8 +49,11 @@ public class addBus extends AppCompatActivity {
             }
         });
     }
-    public class netBus extends AsyncTask<String,String,String>{
+
+    public class netBus extends AsyncTask<String, String, String> {
+        //Thread off the MAIN UI THREAD tasked with downloading web data
         String value;
+
         @Override
         protected void onPreExecute() {
             System.out.print("");
@@ -61,20 +62,19 @@ public class addBus extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... strings) {
-            try{
-                URL busURL = new URL("http://mybusnow.njtransit.com/bustime/wireless/html/selectdirection.jsp?route="+busNum.getText().toString());
-
+            //Makes and attempt to download
+            try {
+                URL busURL = new URL("http://mybusnow.njtransit.com/bustime/wireless/html/selectdirection.jsp?route=" + busNum.getText().toString());
                 HttpURLConnection connect = (HttpURLConnection) busURL.openConnection();
                 connect.setRequestMethod("GET");
                 connect.connect();
 
                 BufferedReader bf = new BufferedReader((new InputStreamReader(connect.getInputStream())));
-                while(bf.readLine() != null){
+                while (bf.readLine() != null) {
                     value += bf.readLine();
                 }
 
-            }
-            catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
 
             }
@@ -83,38 +83,36 @@ public class addBus extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String s) {
+            //Method that will parse HTML
             super.onPostExecute(s);
             regexFinder obj = new regexFinder();
-            //value = value.substring(value.indexOf("\t\t\t<a href=\"selectstop"),value.indexOf("-&nbsp;"));
+
+            //Given bus will be passed to regEX method findString()
             String regEx = "selectstop[^\"]+";
-            LinkedList<String> responseList = obj.findString(regEx,value);
-            //testGetReq.setText("");
-            if(responseList.size() == 0){
+            LinkedList<String> responseList = obj.findString(regEx, value);
+            if (responseList.size() == 0) {
+                //The given bus does not exist. Puts a toast on screen that prompts user to input a valid bus
                 Toast toast = Toast.makeText(getApplicationContext(), "I could not find that? Try again.", Toast.LENGTH_LONG);
                 toast.show();
                 return;
             }
-            Intent passDirections = new Intent(getApplicationContext(),getDirection.class);
+            Intent passDirections = new Intent(getApplicationContext(), getDirection.class);
 
-            for(int i = 0; i < responseList.size(); i++){
-
+            for (int i = 0; i < responseList.size(); i++) {
+                //Parses through the data to check if certain URL encoded strings exist. "%2F" for example means "/"
                 String passedInfo = responseList.get(i);
-                passedInfo = passedInfo.substring(passedInfo.indexOf("n=")+2,passedInfo.length());
+                passedInfo = passedInfo.substring(passedInfo.indexOf("n=") + 2, passedInfo.length());
                 if (passedInfo.contains("+")) {
-                    passedInfo = passedInfo.replace("+"," ");
+                    passedInfo = passedInfo.replace("+", " ");
                 }
                 if (passedInfo.contains("%2F")) {
-                    passedInfo = passedInfo.replace("%2F","/");
+                    passedInfo = passedInfo.replace("%2F", "/");
                 }
                 if (passedInfo.contains("%2C")) {
-                    passedInfo = passedInfo.replace("%2C",",");
+                    passedInfo = passedInfo.replace("%2C", ",");
                 }
-
-                String combine = responseList.get(i)+"|"+passedInfo+"\n";
-                //passDirections.putExtra("com.example.busbuddy_droid.busList",combine);
-                passDirections.putExtra("com.example.busbuddy_droid.busList"+(i+1),combine);
-
-                //testGetReq.append(responseList.get(i)+"Q"+passedInfo+"\n");
+                String combine = responseList.get(i) + "|" + passedInfo + "\n";
+                passDirections.putExtra("com.example.busbuddy_droid.busList" + (i + 1), combine);
             }
             startActivity(passDirections);
 
