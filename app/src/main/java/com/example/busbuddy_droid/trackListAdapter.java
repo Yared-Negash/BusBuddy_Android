@@ -17,22 +17,23 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 
-
+//Sets up the adapter for the cards on trackList viewTracking Activity. Houses data about bus stop, direction, estimated time of arrival, etc.
 public class trackListAdapter extends RecyclerView.Adapter<trackListAdapter.ViewHolder> {
     private LinkedList<completeStop> buses;
 
     //mListener contains the Activity
     private OnItemClickListener mListener;
 
-    public interface OnItemClickListener{
+    public interface OnItemClickListener {
         void onItemClick(int position);
     }
-    public void setOnItemClickListener(OnItemClickListener listener){
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
         mListener = listener;
 
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView busNum, busDirection, busEta, approxArrival;
         public LinearLayout busLayout;
         busListDBHelper dbHandler;
@@ -51,9 +52,9 @@ public class trackListAdapter extends RecyclerView.Adapter<trackListAdapter.View
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(listener != null){
+                    if (listener != null) {
                         int position = getAdapterPosition();
-                        if(position != RecyclerView.NO_POSITION){
+                        if (position != RecyclerView.NO_POSITION) {
                             listener.onItemClick(position);
                         }
                     }
@@ -63,6 +64,7 @@ public class trackListAdapter extends RecyclerView.Adapter<trackListAdapter.View
 
         }
     }
+
     //how to get data from mainacitivty to adatper?: pass to constructor of adapter
     public trackListAdapter(LinkedList<completeStop> passedData) {
         buses = passedData;
@@ -72,9 +74,9 @@ public class trackListAdapter extends RecyclerView.Adapter<trackListAdapter.View
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         //passing entire card layout to adapter
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.track_list_card,viewGroup,false);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.track_list_card, viewGroup, false);
         System.out.println("hel");
-        ViewHolder viewHolder = new ViewHolder(v,mListener);
+        ViewHolder viewHolder = new ViewHolder(v, mListener);
         return viewHolder;
     }
 
@@ -89,38 +91,38 @@ public class trackListAdapter extends RecyclerView.Adapter<trackListAdapter.View
         viewHolder.busEta.setText(temp.getETA());
         String eta = temp.getETA();
 
-        try{
-            if(eta.contains(" has been delayed. Please plan accordingly")){
+        try {
+            if (eta.contains(" has been delayed. Please plan accordingly")) {
                 viewHolder.busEta.setText("Delayed");
                 viewHolder.busEta.setTextColor(Color.RED);
                 viewHolder.approxArrival.setText("Delayed");
                 return;
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("tried doing the delay , didnt work");
         }
 
-        eta = eta.substring(0,eta.indexOf(" "));
-        if(eta.equals("")){
+        eta = eta.substring(0, eta.indexOf(" "));
+        if (eta.equals("")) {
             eta = "1";
         }
-        if(Integer.parseInt(eta) > 5){
+        if (Integer.parseInt(eta) > 5) {
             viewHolder.busEta.setTextColor(Color.WHITE);
         }
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MINUTE, Integer.parseInt(eta));
-        Date date=calendar.getTime();
+        Date date = calendar.getTime();
         DateFormat dateFormat = new SimpleDateFormat("HH:mm");
-        String approxETA=dateFormat.format(date);
+        String approxETA = dateFormat.format(date);
 
-        viewHolder.approxArrival.setText("("+approxETA+")");
+        viewHolder.approxArrival.setText("(" + approxETA + ")");
 
     }
 
     @Override
     public int getItemCount() {
         //retuns number of bustops
-        if(buses.get(0).getBuses() == null){
+        if (buses.get(0).getBuses() == null) {
             return 0;
         }
         return buses.get(0).getBuses().size();

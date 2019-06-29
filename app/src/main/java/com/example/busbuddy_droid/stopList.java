@@ -1,36 +1,26 @@
 package com.example.busbuddy_droid;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+
 import java.util.LinkedList;
 
-/*  Activity presented to user after selecting a bus direction passed from the getDirection class/Activity.
+/*  Activity presented to user after selecting a  direction passed from the getDirection class/Activity.
 
-    This code will  display all the stops the bus will travel to.
-    Selecting a bus stop is the final step in the process of saving a new bustop. Sends Bus Stop name and Stop ID to Database to be stored.
+    This code will  display all the stops the stations the bus will service.
+    Selecting a bus stop is the final step in the process of saving a new bus stop. Sends Bus Stop name and Stop ID to busListDBHelper database.
  */
 public class stopList extends AppCompatActivity {
 
@@ -40,8 +30,10 @@ public class stopList extends AppCompatActivity {
     busListDBHelper dbHandler;
 
     public void fillButtons(String response) {
+        //
         regexFinder obj = new regexFinder();
         String regex = "eta[.][^<]+";
+        //stores list of all bus stops in a LinkedList
         busLL = obj.findString(regex, response);
         for (int i = 0; i < busLL.size(); i++) {
             final String street = Jsoup.parse(busLL.get(i).substring(busLL.get(i).indexOf(">") + 1)).text();
@@ -51,6 +43,7 @@ public class stopList extends AppCompatActivity {
             Button wow = new Button(getApplicationContext());
             wow.setText(street);
             wow.setTag(url);
+            //when a button is clicked, the associated bus stop is saved in the DB
             wow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -90,6 +83,7 @@ public class stopList extends AppCompatActivity {
 
     }
 
+    //Sends GET request to retrieve all bus stops. Calls fillButtons method to draw buttons on screen afterwards
     public class downloadStops extends AsyncTask<Void, Void, Void> {
         String value;
 

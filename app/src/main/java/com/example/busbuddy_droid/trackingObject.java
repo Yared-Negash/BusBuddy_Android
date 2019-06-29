@@ -1,8 +1,9 @@
 package com.example.busbuddy_droid;
 
+//object that holds stopID, stopName, Bus, and an other metadata. used in the viewTracking class
 public class trackingObject {
     private String stopID, stopName;
-    private String Bus, Direction,ETA, Vehicle;
+    private String Bus, Direction, ETA, Vehicle;
 
 
     public trackingObject(String stopID, String stopName, String bus, String direction, String ETA, String vehicle) {
