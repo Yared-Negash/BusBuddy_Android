@@ -7,8 +7,7 @@ import android.media.AudioAttributes;
 import android.net.Uri;
 import android.os.Build;
 
-import java.net.URI;
-
+//This class sets up Notification Channels. Necessary for showing bus ETA outside of the busbuddy app (like on the homescreen or on another app)
 public class App extends Application {
     public static final String CHANNEL_ID = "trackingServiceChannel";
     public static final String CHANNEL_ID_NO_SOUND = "trackingServiceChannel_NoSound";
@@ -21,9 +20,10 @@ public class App extends Application {
 
         createNotificationChannel();
     }
-    private void createNotificationChannel(){
+
+    private void createNotificationChannel() {
         //creates service
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel trackingService = new NotificationChannel(
                     CHANNEL_ID,
                     "Tracking Service Channel",
@@ -44,7 +44,7 @@ public class App extends Application {
                     "Tracking Service Channel NO SOUND",
                     NotificationManager.IMPORTANCE_DEFAULT
             );
-            trackingService_NOSOUND.setSound(null,null);
+            trackingService_NOSOUND.setSound(null, null);
             NotificationManager manager_nosound = getSystemService(NotificationManager.class);
             manager_nosound.createNotificationChannel(trackingService_NOSOUND);
         }

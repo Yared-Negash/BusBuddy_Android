@@ -17,6 +17,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 
+//Sets up the adapter for the cards that display tracked buses on
+// viewTracking Activity.
 
 public class viewTrackingAdapter extends RecyclerView.Adapter<viewTrackingAdapter.ViewHolder> {
     private LinkedList<trackingObject> buses;
@@ -24,17 +26,18 @@ public class viewTrackingAdapter extends RecyclerView.Adapter<viewTrackingAdapte
     //mListener contains the Activity
     private OnItemClickListener mListener;
 
-    public interface OnItemClickListener{
+    public interface OnItemClickListener {
         //void onItemClick(int position);
 
         void deleteClick(int position);
     }
-    public void setOnItemClickListener(OnItemClickListener listener){
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
         mListener = listener;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
-        public TextView stationName,busNum, busDirection, busEta, approxArrival;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        public TextView stationName, busNum, busDirection, busEta, approxArrival;
         private ImageView deleteButton;
         public LinearLayout busLayout;
         busListDBHelper dbHandler;
@@ -54,9 +57,9 @@ public class viewTrackingAdapter extends RecyclerView.Adapter<viewTrackingAdapte
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(listener != null){
+                    if (listener != null) {
                         int position = getAdapterPosition();
-                        if(position != RecyclerView.NO_POSITION){
+                        if (position != RecyclerView.NO_POSITION) {
                             listener.deleteClick(position);
                         }
                     }
@@ -65,10 +68,10 @@ public class viewTrackingAdapter extends RecyclerView.Adapter<viewTrackingAdapte
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(listener != null){
+                    if (listener != null) {
                         int position = getAdapterPosition();
-                        if(position != RecyclerView.NO_POSITION){
-                           // listener.onItemClick(position);
+                        if (position != RecyclerView.NO_POSITION) {
+                            // listener.onItemClick(position);
                         }
                     }
                 }
@@ -77,6 +80,7 @@ public class viewTrackingAdapter extends RecyclerView.Adapter<viewTrackingAdapte
 
         }
     }
+
     //how to get data from mainacitivty to adatper?: pass to constructor of adapter
     public viewTrackingAdapter(LinkedList<trackingObject> passedData) {
         buses = passedData;
@@ -86,8 +90,8 @@ public class viewTrackingAdapter extends RecyclerView.Adapter<viewTrackingAdapte
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         //passing entire card layout to adapter
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.view_tracked_bus_card,viewGroup,false);
-        ViewHolder viewHolder = new ViewHolder(v,mListener);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.view_tracked_bus_card, viewGroup, false);
+        ViewHolder viewHolder = new ViewHolder(v, mListener);
         return viewHolder;
 
 
@@ -99,40 +103,39 @@ public class viewTrackingAdapter extends RecyclerView.Adapter<viewTrackingAdapte
         trackingObject currentBus = buses.get(i);
         viewHolder.stationName.setText(currentBus.getStopName());
 
-        viewHolder.busNum.setText(currentBus.getBus()+"\n Vehicle: "+currentBus.getVehicle());
+        viewHolder.busNum.setText(currentBus.getBus() + "\n Vehicle: " + currentBus.getVehicle());
         viewHolder.busDirection.setText(currentBus.getDirection());
         viewHolder.busEta.setText(currentBus.getETA());
         String eta = currentBus.getETA();
 
-        try{
-            if(eta.contains("Delayed")){
+        try {
+            if (eta.contains("Delayed")) {
                 viewHolder.busEta.setText("Delayed");
                 viewHolder.approxArrival.setText("TBA");
                 return;
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("tried doing the delay , didnt work");
         }
 
-        if(eta.contains("NOW")){
+        if (eta.contains("NOW")) {
             viewHolder.busEta.setText("NOW");
             viewHolder.approxArrival.setText("Now");
             return;
         }
 
         Calendar calendar = Calendar.getInstance();
-        try{
-            calendar.add(Calendar.MINUTE, Integer.parseInt(eta.substring(0,eta.indexOf(" "))));
-        }
-        catch (Exception e){
+        try {
+            calendar.add(Calendar.MINUTE, Integer.parseInt(eta.substring(0, eta.indexOf(" "))));
+        } catch (Exception e) {
             System.out.println("eta format has changed, now passing raw eta");
             calendar.add(Calendar.MINUTE, Integer.parseInt(eta));
         }
-        Date date=calendar.getTime();
+        Date date = calendar.getTime();
         DateFormat dateFormat = new SimpleDateFormat("HH:mm");
-        String approxETA=dateFormat.format(date);
+        String approxETA = dateFormat.format(date);
 
-        viewHolder.approxArrival.setText("("+approxETA+")");
+        viewHolder.approxArrival.setText("(" + approxETA + ")");
 
     }
 
