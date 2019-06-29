@@ -6,8 +6,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
+/*  Activity presented to user after trying to add a new bus stop.
+    getBus class, depending on if the inputted bus exists, will send two directions, inbound and outbound, to this activity
+
+    This code will  pass the desired town to the stopList method/Activity..
+    For example, the 73 bus operates in:  Newark Penn Station and Livingston. If the user selects Livingston, then that will be passed to the next Activity
+ */
 public class getDirection extends AppCompatActivity {
     TextView displayBus;
     Button directionButton1;
@@ -21,9 +26,8 @@ public class getDirection extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.direction_layout);
         displayBus = (TextView) findViewById(R.id.busQuestion);
-        directionButton1= (Button) findViewById(R.id.directionOne);
-        directionButton2= (Button) findViewById(R.id.directionTwo);
-
+        directionButton1 = (Button) findViewById(R.id.directionOne);
+        directionButton2 = (Button) findViewById(R.id.directionTwo);
 
 
         Intent getBus = getIntent();
@@ -31,35 +35,33 @@ public class getDirection extends AppCompatActivity {
         userInputBus1 = getBus.getStringExtra("com.example.busbuddy_droid.busList1");
         userInputBus2 = getBus.getStringExtra("com.example.busbuddy_droid.busList2");
 
-        String stopOne = userInputBus1.substring(userInputBus1.indexOf("|")+1,userInputBus1.length()-1);
-        String stopTwo = userInputBus2.substring(userInputBus2.indexOf("|")+1,userInputBus2.length()-1);
+        String stopOne = userInputBus1.substring(userInputBus1.indexOf("|") + 1, userInputBus1.length() - 1);
+        String stopTwo = userInputBus2.substring(userInputBus2.indexOf("|") + 1, userInputBus2.length() - 1);
 
 
-        displayBus.setText("You Searched for Bus "+userInputBus1.substring(userInputBus1.indexOf("=")+1
-                ,userInputBus1.indexOf("&"))+". In What Direction?\n");
+        displayBus.setText("You Searched for Bus " + userInputBus1.substring(userInputBus1.indexOf("=") + 1
+                , userInputBus1.indexOf("&")) + ". In What Direction?\n");
         directionButton1.setText(stopOne);
         directionButton2.setText(stopTwo);
 
-       directionButton1.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               Intent passDirection = new Intent(getApplicationContext(),stopList.class);
-               //String test = "http://mybusnow.njtransit.com/bustime/wireless/html/"+userInputBus1.substring(0,userInputBus1.indexOf("|"));
-               passDirection.putExtra("com.example.busbuddy_droid.direction",userInputBus1);
-               startActivity(passDirection);
-           }
-       });
-       directionButton2.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               Intent passDirection = new Intent(getApplicationContext(),stopList.class);
-               //String test = "http://mybusnow.njtransit.com/bustime/wireless/html/"+userInputBus2.substring(0,userInputBus2.indexOf("|"));
-               passDirection.putExtra("com.example.busbuddy_droid.direction",userInputBus2);
-               startActivity(passDirection);
-           }
-       });
-
-
+        directionButton1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent passDirection = new Intent(getApplicationContext(), stopList.class);
+                //String test = "http://mybusnow.njtransit.com/bustime/wireless/html/"+userInputBus1.substring(0,userInputBus1.indexOf("|"));
+                passDirection.putExtra("com.example.busbuddy_droid.direction", userInputBus1);
+                startActivity(passDirection);
+            }
+        });
+        directionButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent passDirection = new Intent(getApplicationContext(), stopList.class);
+                //String test = "http://mybusnow.njtransit.com/bustime/wireless/html/"+userInputBus2.substring(0,userInputBus2.indexOf("|"));
+                passDirection.putExtra("com.example.busbuddy_droid.direction", userInputBus2);
+                startActivity(passDirection);
+            }
+        });
 
 
     }

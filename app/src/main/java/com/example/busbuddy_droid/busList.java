@@ -2,7 +2,10 @@ package com.example.busbuddy_droid;
 
 
 public class busList {
-    //object used to pass data to db. Used for adding a new station to favorite stops
+    /*  object used to pass data to db. Used for adding a new station to favorite stops
+        _id variable holds the unique numerical number assigned by NJ transit to each bus stop. For example: 31890
+        street is the string that holds the name of the stop. For example:  NEWARK PENN STATION (East Orange/Newark)
+    */
     private int _id;
     private String _street;
 

@@ -27,21 +27,26 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.LinkedList;
 
+/*  Activity presented to user after selecting a bus direction passed from the getDirection class/Activity.
+
+    This code will  display all the stops the bus will travel to.
+    Selecting a bus stop is the final step in the process of saving a new bustop. Sends Bus Stop name and Stop ID to Database to be stored.
+ */
 public class stopList extends AppCompatActivity {
 
     String directionLink;
-    LinkedList <String> busLL;
+    LinkedList<String> busLL;
     LinearLayout list;
     busListDBHelper dbHandler;
 
-    public void fillButtons(String response){
+    public void fillButtons(String response) {
         regexFinder obj = new regexFinder();
         String regex = "eta[.][^<]+";
-        busLL = obj.findString(regex,response);
-        for(int i = 0; i< busLL.size();i++){
-            final String street = Jsoup.parse(busLL.get(i).substring( busLL.get(i).indexOf(">")+1)).text();
-            final int stopID = Integer.parseInt(busLL.get(i).substring(busLL.get(i).indexOf("id=")+3,busLL.get(i).indexOf("id=")+8));
-            final String url = busLL.get(i).substring(0,busLL.get(i).indexOf("\">"));
+        busLL = obj.findString(regex, response);
+        for (int i = 0; i < busLL.size(); i++) {
+            final String street = Jsoup.parse(busLL.get(i).substring(busLL.get(i).indexOf(">") + 1)).text();
+            final int stopID = Integer.parseInt(busLL.get(i).substring(busLL.get(i).indexOf("id=") + 3, busLL.get(i).indexOf("id=") + 8));
+            final String url = busLL.get(i).substring(0, busLL.get(i).indexOf("\">"));
 
             Button wow = new Button(getApplicationContext());
             wow.setText(street);
@@ -49,54 +54,52 @@ public class stopList extends AppCompatActivity {
             wow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    dbHandler = new busListDBHelper(getApplicationContext(),null,null,1);
-                    if(dbHandler.searchStop(Integer.toString(stopID)) == true){
-                        Toast toast = Toast.makeText(getApplicationContext(),"You have already added "+stopID+" at "+street+"." , Toast.LENGTH_LONG);
+                    dbHandler = new busListDBHelper(getApplicationContext(), null, null, 1);
+                    if (dbHandler.searchStop(Integer.toString(stopID)) == true) {
+                        Toast toast = Toast.makeText(getApplicationContext(), "You have already added " + stopID + " at " + street + ".", Toast.LENGTH_LONG);
                         toast.show();
-                    }
-                    else{
-                        busList newStop = new busList(stopID,street);
+                    } else {
+                        busList newStop = new busList(stopID, street);
                         dbHandler.addStop(newStop);
                     }
                     dbHandler.close();
-                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                 }
             });
             list.addView(wow);
         }
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
 
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stop_list);
-        TextView directionQuestion = (TextView)findViewById(R.id.alertDirection);
+        TextView directionQuestion = (TextView) findViewById(R.id.alertDirection);
         list = (LinearLayout) findViewById(R.id.busLayout);
 
         Intent getDirection = getIntent();
         directionLink = getDirection.getStringExtra("com.example.busbuddy_droid.direction");
 
-        directionQuestion.setText("You're Going to "+directionLink.substring(directionLink.indexOf("|")+1,directionLink.length()-1)+". Which Bus stop?");
+        directionQuestion.setText("You're Going to " + directionLink.substring(directionLink.indexOf("|") + 1, directionLink.length() - 1) + ". Which Bus stop?");
         new downloadStops().execute();
-
 
 
     }
 
-    public class downloadStops extends AsyncTask<Void,Void,Void>{
+    public class downloadStops extends AsyncTask<Void, Void, Void> {
         String value;
+
         @Override
         protected Void doInBackground(Void... voids) {
 
-            try{
-                Document document = Jsoup.connect("http://mybusnow.njtransit.com/bustime/wireless/html/"+directionLink.substring(0,directionLink.indexOf("|"))).get();
+            try {
+                Document document = Jsoup.connect("http://mybusnow.njtransit.com/bustime/wireless/html/" + directionLink.substring(0, directionLink.indexOf("|"))).get();
                 value = document.toString();
-            }
-            catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return null;

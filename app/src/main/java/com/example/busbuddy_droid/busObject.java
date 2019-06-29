@@ -1,8 +1,10 @@
 package com.example.busbuddy_droid;
 
+
+//object that hold data for each ETA record such as bus, direction it is heading in, the vehicle number, and its Estimated Time of Arrival
+
 public class busObject {
-    //object that hold data for each ETA record such as bus, direction it is heading in, the vehicle number, and its Estimated Time of Arrival
-    private String Bus, Direction,ETA, Vehicle;
+    private String Bus, Direction, ETA, Vehicle;
 
     public busObject(String bus, String direction, String ETA, String vehicle) {
         Bus = bus;
